@@ -1,5 +1,6 @@
 #phpBB Add User Extension
 
+[![Build Status](https://travis-ci.org/RMcGirr83/phpbb-3.1-ext-adduser.svg)](https://travis-ci.org/RMcGirr83/phpbb-3.1-ext-adduser)
 ##About
 phpBB Add User Extension allows an administrator of a forum to add a user into the phpBB database.
 
