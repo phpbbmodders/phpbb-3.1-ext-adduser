@@ -1,0 +1,87 @@
+<!-- INCLUDE overall_header.html -->
+
+	<h1>{L_ADD_USER} - {L_MOD_VERSION}</h1>
+	<p>{L_ADD_USER_EXPLAIN}</p>
+
+	<form id="register" method="post" autocomplete="off" action="{U_ACTION}">
+
+<!-- IF ERROR -->
+	<div class="errorbox"><h3>{L_WARNING}</h3>
+		<p>{ERROR}</p>
+	</div>
+<!-- ENDIF -->
+
+<fieldset>
+	<legend>{L_REGISTRATION}</legend>
+	<p>{L_REG_COND}</p>
+	<dl>
+		<dt><label for="username">{L_USERNAME}:</label>
+			<br /><span>{L_USERNAME_EXPLAIN}</span></dt>
+		<dd><input class="medium" type="text" id="username" name="username" size="25" maxlength="40" value="{NEW_USERNAME}" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="email">{L_EMAIL_ADDRESS}:</label></dt>
+		<dd><input class="medium" type="text" name="email" id="email" size="25" maxlength="255" value="{EMAIL}" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="email_confirm">{L_CONFIRM_EMAIL}:</label></dt>
+		<dd><input class="medium" type="text" name="email_confirm" id="email_confirm" size="25" maxlength="255" value="{EMAIL_CONFIRM}" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="new_password">{L_PASSWORD}:</label><br /><span>{L_PASSWORD_EXPLAIN}</span></dt>
+		<dd><input type="password" name="new_password" id="new_password" size="25" value="{PASSWORD}" class="inputbox autowidth" title="{L_NEW_PASSWORD}" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="password_confirm">{L_CONFIRM_PASSWORD}:</label></dt>
+		<dd><input type="password" name="password_confirm" id="password_confirm" size="25" value="{PASSWORD_CONFIRM}" class="inputbox autowidth" title="{L_CONFIRM_PASSWORD}" /></dd>
+	</dl>
+	<dl>
+		<dt><label for="lang">{L_LANGUAGE}:</label></dt>
+		<dd><select name="lang" id="lang">{S_LANG_OPTIONS}</select></dd>
+	</dl>
+	<dl>
+		<dt><label for="tz">{L_TIMEZONE}:</label></dt>
+		<dd><select name="tz" id="tz">{S_TZ_OPTIONS}</select></dd>
+	</dl>
+	<dl>
+		<dt><label for="group">{L_GROUPS}:</label><br /><span>{L_GROUP_ADD}</span></dt>
+		<dd>{S_GROUP_OPTIONS}</dd>
+	</dl>	
+	<!-- IF S_BIRTHDAYS_ENABLED -->
+	<dl>
+		<dt><label for="birthday">{L_BIRTHDAY}:</label><br /><span>{L_BIRTHDAY_EXPLAIN}</span></dt>
+		<dd>{L_DAY}: <select id="birthday" name="bday_day">{S_BIRTHDAY_DAY_OPTIONS}</select> {L_MONTH}: <select name="bday_month">{S_BIRTHDAY_MONTH_OPTIONS}</select> {L_YEAR}: <select name="bday_year">{S_BIRTHDAY_YEAR_OPTIONS}</select></dd>
+	</dl>
+	<!-- ENDIF -->
+	<!-- IF S_ADMIN_ACTIVATE -->
+	<dl>
+		<dt><label for="admin_activate">{L_ADMIN_ACTIVATE}:</label></dt>
+		<dd><input id="admin_activate" class="radio" type="checkbox" value="1"{U_ADMIN_ACTIVATE} name="activate" /></dd>
+	</dl>
+	<!-- ENDIF -->
+</fieldset>
+
+	<!-- IF .profile_fields -->
+		<fieldset>
+			<legend>{L_USER_CUSTOM_PROFILE_FIELDS}</legend>
+		<dl>
+			<dt><label>{L_ITEMS_REQUIRED}</label></dt>
+		</dl>
+		<!-- BEGIN profile_fields -->
+		<dl>
+			<dt><label<!-- IF profile_fields.FIELD_ID --> for="{profile_fields.FIELD_ID}"<!-- ENDIF -->>{profile_fields.LANG_NAME}:<!-- IF profile_fields.S_REQUIRED --> *<!-- ENDIF --></label>
+			<!-- IF profile_fields.LANG_EXPLAIN --><br /><span>{profile_fields.LANG_EXPLAIN}</span><!-- ENDIF -->
+			<!-- IF profile_fields.ERROR --><br /><span class="error">{profile_fields.ERROR}</span><!-- ENDIF --></dt>
+			<dd>{profile_fields.FIELD}</dd>
+		</dl>
+		<!-- END profile_fields -->
+		</fieldset>
+	<!-- ENDIF -->
+
+	<fieldset class="quick">
+		<input class="button1" type="submit" name="submit" value="{L_SUBMIT}" />&nbsp;&nbsp;<input class="button1" type="reset" value="{L_RESET}" name="reset" />
+		{S_FORM_TOKEN}
+	</fieldset>
+
+</form>
+<!-- INCLUDE overall_footer.html -->

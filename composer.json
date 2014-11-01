@@ -1,0 +1,27 @@
+{
+	"name": "rmcgirr83/adduser",
+	"type": "phpbb-extension",
+	"description": "Allows administrators to add users to their forum",
+	"homepage": "https://github.com/RMcGirr83/phpBB-3.1-ext-adduser",
+	"version": "1.0.0",
+	"time": "2014-10-25",
+	"keywords": ["phpbb", "extension", "add user"],
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Rich McGirr",
+			"homepage": "http://rmcgirr83.org",
+			"email": "rmcgirr83@rmcgirr83.org",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"extra": {
+		"display-name": "Add User",
+		"soft-require": {
+			"phpbb/phpbb": "3.1.*"
+		}
+	}
+}
