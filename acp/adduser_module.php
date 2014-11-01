@@ -110,7 +110,7 @@ class add_user_module
 					$data['new_password'] = $data['password_confirm'] = $new_password;
 				}
 			}
-			
+
 			// validate entries
 			$validate_array = array(
 				'username'			=> array(
@@ -316,7 +316,7 @@ class add_user_module
 
 				trigger_error(implode('<br />', $message));
 			}
-				
+
 		}
 		$l_reg_cond = '';
 		switch ($this->config['require_activation'])
@@ -386,9 +386,9 @@ class add_user_module
 			}
 			$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
 		}
-		$s_group_options .='</select>';	
-		$this->db->sql_freeresult($result);			
-			
+		$s_group_options .='</select>';
+		$this->db->sql_freeresult($result);
+
 		$this->template->assign_vars(array(
 			'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'NEW_USERNAME'		=> $data['username'],
@@ -418,7 +418,7 @@ class add_user_module
 	}
 
 	//a function to generate passwords
-	public function generate_password($length, $type) 
+	public function generate_password($length, $type)
 	{
 		$lowercase = "abcdefghijklmnopqrstuvwxyz";
 		$uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -428,27 +428,27 @@ class add_user_module
 		$pword_string = '';
 		//mt_srand(crc32(microtime()));
 		$max = strlen($lowercase) - 1;
-		for ($x = 0; $x < abs($length/3); $x++) 
+		for ($x = 0; $x < abs($length/3); $x++)
 		{
 			$pword_string .= $lowercase{mt_rand(0, $max)};
 		}
 		$max = strlen($uppercase) - 1;
-		for ($x = 0; $x < abs($length/3); $x++) 
+		for ($x = 0; $x < abs($length/3); $x++)
 		{
 			$pword_string .= $uppercase{mt_rand(0, $max)};
 		}
 		$max = strlen($numbers) - 1;
-		for ($x = 0; $x < abs($length/3); $x++) 
+		for ($x = 0; $x < abs($length/3); $x++)
 		{
 			$pword_string .= $numbers{mt_rand(0, $max)};
 		}
 		if ($type == 'PASS_TYPE_SYMBOL')
 		{
 			$max = strlen($specialcharacters) - 1;
-			for ($x = 0; $x < abs($length/3); $x++) 
+			for ($x = 0; $x < abs($length/3); $x++)
 			{
 				$pword_string .= $specialcharacters{mt_rand(0, $max)};
-			}		
+			}
 		}
 
 		return str_shuffle($pword_string);
