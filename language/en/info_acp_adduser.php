@@ -38,6 +38,6 @@ $lang = array_merge($lang, array(
 	// ACP Module
 	'ACP_ADD_USER'				=> 'ACP Add User',
 
-	// ACP Logs	
+	// ACP Logs
 	'LOG_USER_ADDED'			=> '<strong>New user created</strong><br />» %s',
 ));

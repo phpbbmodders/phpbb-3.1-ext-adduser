@@ -28,7 +28,7 @@ class adduser_module
 		$this->php_ext = $phpEx;
 		$this->log = $phpbb_container->get('log');
 		$this->phpbb_admin_path = $phpbb_admin_path;
-		
+
 		$admin_activate = (isset($_POST['activate'])) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
 
 		$this->page_title = $user->lang['ACP_ADD_USER'];
@@ -42,9 +42,9 @@ class adduser_module
 
 		// include lang files we need
 		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
-		
+
 		// Add the add user ACP lang file
-		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');		
+		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');	
 
 		// add custom profile fields
 		$cp = $phpbb_container->get('profilefields.manager');
@@ -223,7 +223,7 @@ class adduser_module
 				{
 					trigger_error($this->user->lang['NO_USER'], E_USER_ERROR);
 				}
-				
+
 				// send a message to the user...if needed
 				$message = array();
 				if ($config['require_activation'] == USER_ACTIVATION_SELF && $config['email_enable'])
@@ -287,7 +287,7 @@ class adduser_module
 				trigger_error(implode('<br />', $message));
 			}
 		}
-		
+
 		$l_reg_cond = '';
 		switch ($this->config['require_activation'])
 		{
