@@ -44,7 +44,7 @@ class adduser_module
 		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
 
 		// Add the add user ACP lang file
-		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');	
+		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');
 
 		// add custom profile fields
 		$cp = $phpbb_container->get('profilefields.manager');
