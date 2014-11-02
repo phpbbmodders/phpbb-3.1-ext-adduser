@@ -280,7 +280,7 @@ class adduser_module
 					));
 				}
 
-				$message[] = sprintf($user->lang['CONTINUE_EDIT_USER'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=profile&amp;u=' . $user_id) . '">', $data['username'], '</a>');
+				$message[] = sprintf($user->lang['CONTINUE_EDIT_USER'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $user_id) . '">', $data['username'], '</a>');
 				$message[] = sprintf($user->lang['EDIT_USER_GROUPS'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=groups&amp;u=' . $user_id) . '">', '</a>');
 				$message[] = adm_back_link($this->u_action);
 
