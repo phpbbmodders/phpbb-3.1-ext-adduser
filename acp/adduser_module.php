@@ -9,29 +9,45 @@
 
 namespace rmcgirr83\adduser\acp;
 
-class add_user_module
+class adduser_module
 {
+
+	/** @var string */
 	public $u_action;
-	public $main_link;
-	public $back_link;
-	var $error = '';
 
 	public function main($id, $mode)
 	{
-		global $config, $db, $request, $template, $user, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $config, $db, $request, $template, $user, $phpbb_root_path, $phpEx, $phpbb_container, $phpbb_admin_path;
+
+		$this->config = $config;
+		$this->db = $db;
+		$this->request = $request;
+		$this->template = $template;
+		$this->user = $user;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $phpEx;
+		$this->log = $phpbb_container->get('log');
+		$this->phpbb_admin_path = $phpbb_admin_path;
+		
+		$admin_activate = (isset($_POST['activate'])) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
 
 		$this->page_title = $user->lang['ACP_ADD_USER'];
 		$this->tpl_name = 'acp_adduser';
 
 		//include files we need to add a user
-		include($phpbb_root_path . 'includes/functions_profile_fields.' . $phpEx);
-		include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+		if (!function_exists('user_add'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 
 		// include lang files we need
 		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
+		
+		// Add the add user ACP lang file
+		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');		
 
 		// add custom profile fields
-		$cp = new custom_profile();
+		$cp = $phpbb_container->get('profilefields.manager');
 
 		//set empty error strings
 		$error = $cp_data = $cp_error = array();
@@ -43,32 +59,15 @@ class add_user_module
 		add_form_key('acp_adduser');
 
 		// Try to automatically determine the timezone and daylight savings time settings
-		$timezone = date('Z') / 3600;
-		$is_dst = date('I');
-
-		if ($this->config['board_timezone'] == $timezone || $this->config['board_timezone'] == ($timezone - 1))
-		{
-			$timezone = ($is_dst) ? $timezone - 1 : $timezone;
-
-			if (!isset($this->user->lang['tz_zones'][(string) $timezone]))
-			{
-				$timezone = $this->config['board_timezone'];
-			}
-		}
-		else
-		{
-			$is_dst = $this->config['board_dst'];
-			$timezone = $this->config['board_timezone'];
-		}
+		$timezone = $this->config['board_timezone'];
 
 		$data = array(
 			'username'			=> $this->request->variable('username', '', true),
 			'new_password'		=> $this->request->variable('new_password', '', true),
 			'password_confirm'	=> $this->request->variable('password_confirm', '', true),
 			'email'				=> strtolower($this->request->variable('email', '')),
-			'email_confirm'		=> strtolower($this->request->variable('email_confirm', '')),
 			'lang'				=> basename($this->request->variable('lang', $this->user->lang_name)),
-			'tz'				=> $this->request->variable('tz', (float) $timezone),
+			'tz'				=> request_var('tz', $timezone),
 			'group' 			=> $this->request->variable('group', 0),
 		);
 
@@ -99,7 +98,7 @@ class add_user_module
 					$new_password = str_split(base64_encode(md5(time() . $data['username'])), $this->config['min_pass_chars'] + rand(3, 5));
 					$data['new_password'] = $data['password_confirm'] = $new_password[0];
 				}
-				elseif ($this->config['pass_complex'] == 'PASS_TYPE_ALPHA')
+				else if ($this->config['pass_complex'] == 'PASS_TYPE_ALPHA')
 				{
 					$new_password = $this->generate_password($this->config['min_pass_chars'] + rand(3, 5), 'PASS_TYPE_ALPHA');
 					$data['new_password'] = $data['password_confirm'] = $new_password;
@@ -118,14 +117,13 @@ class add_user_module
 					array('username', '')),
 				'email'				=> array(
 					array('string', false, 6, 60),
-					array('email')),
+					array('user_email')),
 				'new_password'		=> array(
 					array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 					array('password')),
 				'password_confirm'	=> array('string', false, $this->config['min_pass_chars'], $this->config['max_pass_chars']),
-				'email_confirm'		=> array('string', false, 6, 60),
-				'tz'				=> array('num', false, -14, 14),
-				'lang'				=> array('match', false, '#^[a-z_\-]{2,}$#i'),
+				'tz'				=> array('timezone'),
+				'lang'				=> array('language_iso_name'),
 			);
 
 			if ($this->config['allow_birthdays'])
@@ -153,10 +151,8 @@ class add_user_module
 				$error[] = $user->lang['NEW_PASSWORD_ERROR'];
 			}
 
-			if ($data['email'] != $data['email_confirm'])
-			{
-				$error[] = $this->user->lang['NEW_EMAIL_ERROR'];
-			}
+			// Replace "error" strings with their real, localised form
+			$error = array_map(array($user, 'lang'), $error);
 
 			if (!sizeof($error))
 			{
@@ -191,13 +187,15 @@ class add_user_module
 					$user_inactive_time = 0;
 				}
 
+				// Instantiate passwords manager
+				$passwords_manager = $phpbb_container->get('passwords.manager');
+
 				$user_row = array(
 					'username'				=> $data['username'],
-					'user_password'			=> phpbb_hash($data['new_password']),
+					'user_password'			=> $passwords_manager->hash($data['new_password']),
 					'user_email'			=> $data['email'],
 					'group_id'				=> (int) $group_id,
-					'user_timezone'			=> (float) $data['tz'],
-					'user_dst'				=> $is_dst,
+					'user_timezone'			=> $data['tz'],
 					'user_lang'				=> $data['lang'],
 					'user_type'				=> $user_type,
 					'user_actkey'			=> $user_actkey,
@@ -207,11 +205,7 @@ class add_user_module
 					'user_inactive_time'	=> $user_inactive_time,
 				);
 
-				if ($config['new_member_post_limit'])
-				{
-					$user_row['user_new'] = 1;
-				}
-				if ($config['allow_birthdays'])
+				if ($this->config['allow_birthdays'])
 				{
 					$user_row['user_birthday'] = $data['user_birthday'];
 				}
@@ -221,34 +215,36 @@ class add_user_module
 				{
 					group_user_add($data['group'],$user_id);
 				}
-				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED');
+
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED', time(), array($data['username']));
 
 				// This should not happen, because the required variables are listed above...
 				if ($user_id === false)
 				{
 					trigger_error($this->user->lang['NO_USER'], E_USER_ERROR);
 				}
-
+				
+				// send a message to the user...if needed
 				$message = array();
-				if ($this->config['require_activation'] == USER_ACTIVATION_SELF && $this->config['email_enable'])
+				if ($config['require_activation'] == USER_ACTIVATION_SELF && $config['email_enable'])
 				{
-					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE'];
+					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE'];
 					$email_template = 'user_added_inactive';
 				}
-				else if ($this->config['require_activation'] == USER_ACTIVATION_ADMIN && $this->config['email_enable'] && !$admin_activate)
+				else if ($config['require_activation'] == USER_ACTIVATION_ADMIN && $config['email_enable'] && !$admin_activate)
 				{
-					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
+					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
 					$email_template = 'admin_welcome_inactive';
 				}
 				else
 				{
-					$message[] = $this->user->lang['ACP_ACCOUNT_ADDED'];
+					$message[] = $user->lang['ACP_ACCOUNT_ADDED'];
 					$email_template = 'user_added_welcome';
 				}
 
-				if ($this->config['email_enable'])
+				if ($config['email_enable'])
 				{
-					if (!class_exists('messenger'))
+					if (!function_exists('messenger'))
 					{
 						include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
 					}
@@ -259,55 +255,29 @@ class add_user_module
 
 					$messenger->to($data['email'], $data['username']);
 
-					$messenger->headers('X-AntiAbuse: Board servername - ' . $this->config['server_name']);
-					$messenger->headers('X-AntiAbuse: User_id - ' . $this->user->data['user_id']);
-					$messenger->headers('X-AntiAbuse: Username - ' . $this->user->data['username']);
-					$messenger->headers('X-AntiAbuse: User IP - ' . $this->user->ip);
+					$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
+					$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
+					$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
+					$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
 
 					$messenger->assign_vars(array(
-						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($this->user->lang['WELCOME_SUBJECT'], $this->config['sitename'])),
+						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($user->lang['WELCOME_SUBJECT'], $config['sitename'])),
 						'USERNAME'		=> htmlspecialchars_decode($data['username']),
 						'PASSWORD'		=> htmlspecialchars_decode($data['new_password']),
 						'U_ACTIVATE'	=> "$server_url/ucp.$phpEx?mode=activate&u=$user_id&k=$user_actkey")
 					);
 
 					$messenger->send(NOTIFY_EMAIL);
+				}
 
-					if ($this->config['require_activation'] == USER_ACTIVATION_ADMIN && !$admin_activate)
-					{
-						// Grab an array of user_id's with a_user permissions ... these users can activate a user
-						$admin_ary = $auth->acl_get_list(false, 'a_user', false);
-						$admin_ary = (!empty($admin_ary[0]['a_user'])) ? $admin_ary[0]['a_user'] : array();
-
-						// Also include founders
-						$where_sql = ' WHERE user_type = ' . USER_FOUNDER;
-
-						if (sizeof($admin_ary))
-						{
-							$where_sql .= ' OR ' . $this->db->sql_in_set('user_id', $admin_ary);
-						}
-
-						$sql = 'SELECT user_id, username, user_email, user_lang, user_jabber, user_notify_type
-							FROM ' . USERS_TABLE . ' ' .
-							$where_sql;
-						$result = $this->db->sql_query($sql);
-
-						while ($row = $this->db->sql_fetchrow($result))
-						{
-							$messenger->template('admin_activate', $row['user_lang']);
-							$messenger->to($row['user_email'], $row['username']);
-							$messenger->im($row['user_jabber'], $row['username']);
-
-							$messenger->assign_vars(array(
-								'USERNAME'			=> htmlspecialchars_decode($data['username']),
-								'U_USER_DETAILS'	=> "$server_url/memberlist.$phpEx?mode=viewprofile&amp;u=$user_id",
-								'U_ACTIVATE'		=> "$server_url/ucp.$phpEx?mode=activate&u=$user_id&k=$user_actkey")
-							);
-
-							$messenger->send($row['user_notify_type']);
-						}
-						$this->db->sql_freeresult($result);
-					}
+				if ($this->config['require_activation'] == USER_ACTIVATION_ADMIN && !$admin_activate)
+				{
+					$phpbb_notifications = $phpbb_container->get('notification_manager');
+					$phpbb_notifications->add_notifications('notification.type.admin_activate_user', array(
+						'user_id'		=> $user_id,
+						'user_actkey'	=> $user_row['user_actkey'],
+						'user_regdate'	=> $user_row['user_regdate'],
+					));
 				}
 
 				$message[] = sprintf($user->lang['CONTINUE_EDIT_USER'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=profile&amp;u=' . $user_id) . '">', $data['username'], '</a>');
@@ -316,8 +286,8 @@ class add_user_module
 
 				trigger_error(implode('<br />', $message));
 			}
-
 		}
+		
 		$l_reg_cond = '';
 		switch ($this->config['require_activation'])
 		{
@@ -376,8 +346,7 @@ class add_user_module
 			ORDER BY group_type DESC, group_name ASC';
 		$result = $this->db->sql_query($sql);
 
-		$s_group_options = '';
-		$s_group_options .= '<select name="group"><option value="0" select="selected">' . $this->user->lang['NO_GROUP'] . '</option>';
+		$s_group_options = '<select name="group"><option value="0" select="selected">' . $this->user->lang['NO_GROUP'] . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			if (!$this->config['coppa_enable'] && $row['group_name'] == 'REGISTERED_COPPA')
@@ -389,20 +358,20 @@ class add_user_module
 		$s_group_options .='</select>';
 		$this->db->sql_freeresult($result);
 
+		$timezone_selects = phpbb_timezone_select($template, $user, $data['tz'], true);
 		$this->template->assign_vars(array(
 			'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'NEW_USERNAME'		=> $data['username'],
 			'EMAIL'				=> $data['email'],
-			'EMAIL_CONFIRM'		=> $data['email_confirm'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
-			'L_PASSWORD_EXPLAIN'		=> $this->user->lang['PASSWORD_EXPLAIN'] . '<br />' . sprintf($this->user->lang[$config['pass_complex'] . '_EXPLAIN'], $this->config['min_pass_chars'], $this->config['max_pass_chars']),
+			'L_PASSWORD_EXPLAIN'		=> $this->user->lang['PASSWORD_EXPLAIN'] . '<br />' . sprintf($this->user->lang[$this->config['pass_complex'] . '_EXPLAIN'], $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 
-			'L_USERNAME_EXPLAIN'=> sprintf($this->user->lang[$config['allow_name_chars'] . '_EXPLAIN'], $this->config['min_name_chars'], $this->config['max_name_chars']),
+			'L_USERNAME_EXPLAIN'=> sprintf($this->user->lang[$this->config['allow_name_chars'] . '_EXPLAIN'], $this->config['min_name_chars'], $this->config['max_name_chars']),
 
 			'S_LANG_OPTIONS'	=> language_select($data['lang']),
 			'L_REG_COND'		=> $l_reg_cond,
-			'S_TZ_OPTIONS'		=> tz_select($data['tz']),
+
 			'S_GROUP_OPTIONS'	=> $s_group_options,
 			'L_MOD_VERSION'		=> sprintf($this->user->lang['MOD_VERSION'] , $this->config['add_user_version']),
 
@@ -413,11 +382,11 @@ class add_user_module
 		$this->user->profile_fields = array();
 
 		// Generate profile fields -> Template Block Variable profile_fields
-		$cp->generate_profile_fields('register', $this->user->get_iso_lang_id());
+		$cp->generate_profile_fields('register', $user->get_iso_lang_id());
 
 	}
 
-	//a function to generate passwords
+	//function to generate passwords
 	public function generate_password($length, $type)
 	{
 		$lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -452,5 +421,56 @@ class add_user_module
 		}
 
 		return str_shuffle($pword_string);
+	}
+
+	/**
+	* Send the email
+	*
+	* @param \messenger $messenger
+	* @param string $contact
+	* @return null
+	*/
+	public function send(\messenger $messenger, $contact)
+	{
+		if (!sizeof($this->recipients))
+		{
+			return;
+		}
+
+		foreach ($this->recipients as $recipient)
+		{
+			$messenger->template($this->template, $recipient['lang']);
+			$messenger->replyto($this->sender_address);
+			$messenger->to($recipient['address'], $recipient['name']);
+			$messenger->im($recipient['jabber'], $recipient['username']);
+
+			$messenger->headers('X-AntiAbuse: Board servername - ' . $this->server_name);
+			$messenger->headers('X-AntiAbuse: User IP - ' . $this->sender_ip);
+
+			if ($this->sender_id)
+			{
+				$messenger->headers('X-AntiAbuse: User_id - ' . $this->sender_id);
+			}
+			if ($this->sender_username)
+			{
+				$messenger->headers('X-AntiAbuse: Username - ' . $this->sender_username);
+			}
+
+			$messenger->subject(htmlspecialchars_decode($this->subject));
+
+			$messenger->assign_vars(array(
+				'BOARD_CONTACT'	=> $contact,
+				'TO_USERNAME'	=> htmlspecialchars_decode($recipient['to_name']),
+				'FROM_USERNAME'	=> htmlspecialchars_decode($this->sender_name),
+				'MESSAGE'		=> htmlspecialchars_decode($this->body))
+			);
+
+			if (sizeof($this->template_vars))
+			{
+				$messenger->assign_vars($this->template_vars);
+			}
+
+			$messenger->send($recipient['notify_type']);
+		}
 	}
 }

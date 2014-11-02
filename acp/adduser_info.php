@@ -17,7 +17,7 @@ class adduser_info
 	function module()
 	{
 		return array(
-			'filename'	=> '\rmcgirr83\adduser\acp\adduser_module',
+			'filename'	=> 'rmcgirr83\adduser\acp\adduser_module',
 			'title'		=> 'ADD_USER',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
