@@ -41,10 +41,10 @@ $lang = array_merge($lang, array(
 	'ACP_ADD_USER'				=> 'ACP Add User',
 	'ACP_ADMIN_ACTIVATE'		=> 'An email will be dispatched to an Administrator for account activation, alternatively you may check the activate account box below to activate the account instantly once created. The user will receive an email containing account login details.',
 	'ACP_EMAIL_ACTIVATE'		=> 'Once the account has been created, the user will receive an email containing an activation link to activate the account.',
-	'ACP_INSTANT_ACTIVATE'		=> 'The Account will be activated instantly. The user will recieve an email with account login details.',
+	'ACP_INSTANT_ACTIVATE'		=> 'The Account will be activated instantly. The user will receive an email with account login details.',
 
 	'ADD_USER'					=> 'Add User',
-	'ADD_USER_EXPLAIN'			=> 'Create a new user account. If your activation settings are to Admin Activativation only, you will have the option to activate the user instantly.',
+	'ADD_USER_EXPLAIN'			=> 'Create a new user account. If your %sactivation settings%s are to Admin Activativation only, you will have the option to activate the user instantly.',
 	'MOD_VERSION'				=> 'Version %s',
 	'ADMIN_ACTIVATE'			=> 'Activate user account',
 	'CONFIRM_PASSWORD'			=> 'Confirm password',

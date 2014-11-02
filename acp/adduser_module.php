@@ -229,27 +229,27 @@ class adduser_module
 				if ($config['require_activation'] == USER_ACTIVATION_SELF && $config['email_enable'])
 				{
 					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE'];
-					$email_template = 'user_added_inactive';
+					$email_template = '@rmcgirr83_adduser/user_added_inactive';
 				}
 				else if ($config['require_activation'] == USER_ACTIVATION_ADMIN && $config['email_enable'] && !$admin_activate)
 				{
 					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
-					$email_template = 'admin_welcome_inactive';
+					$email_template = '@rmcgirr83_adduser/user_added_admin_welcome_inactive';
 				}
 				else
 				{
 					$message[] = $user->lang['ACP_ACCOUNT_ADDED'];
-					$email_template = 'user_added_welcome';
+					$email_template = '@rmcgirr83_adduser/user_added_welcome';
 				}
 
 				if ($config['email_enable'])
 				{
-					if (!function_exists('messenger'))
+					if (!class_exists('messenger'))
 					{
 						include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
 					}
 
-					$messenger = new messenger(false);
+					$messenger = new \messenger(false);
 
 					$messenger->template($email_template, $data['lang']);
 
@@ -365,15 +365,16 @@ class adduser_module
 			'EMAIL'				=> $data['email'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
-			'L_PASSWORD_EXPLAIN'		=> $this->user->lang['PASSWORD_EXPLAIN'] . '<br />' . sprintf($this->user->lang[$this->config['pass_complex'] . '_EXPLAIN'], $this->config['min_pass_chars'], $this->config['max_pass_chars']),
+			'L_PASSWORD_EXPLAIN'	=> $this->user->lang['PASSWORD_EXPLAIN'] . '<br />' . sprintf($this->user->lang[$this->config['pass_complex'] . '_EXPLAIN'], $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 
-			'L_USERNAME_EXPLAIN'=> sprintf($this->user->lang[$this->config['allow_name_chars'] . '_EXPLAIN'], $this->config['min_name_chars'], $this->config['max_name_chars']),
+			'L_USERNAME_EXPLAIN'	=> sprintf($this->user->lang[$this->config['allow_name_chars'] . '_EXPLAIN'], $this->config['min_name_chars'], $this->config['max_name_chars']),
+			'L_ADD_USER_EXPLAIN'	=> sprintf($this->user->lang['ADD_USER_EXPLAIN'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=acp_board&amp;mode=registration') . '">', '</a>'),
 
 			'S_LANG_OPTIONS'	=> language_select($data['lang']),
 			'L_REG_COND'		=> $l_reg_cond,
 
 			'S_GROUP_OPTIONS'	=> $s_group_options,
-			'L_MOD_VERSION'		=> sprintf($this->user->lang['MOD_VERSION'] , $this->config['add_user_version']),
+			'L_MOD_VERSION'		=> sprintf($this->user->lang['MOD_VERSION'] , $this->config['adduser_version']),
 
 			'S_ADMIN_ACTIVATE'			=> ($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false,
 			'U_ADMIN_ACTIVATE'			=> ($admin_activate) ? ' checked="checked"' : '',
@@ -421,56 +422,5 @@ class adduser_module
 		}
 
 		return str_shuffle($pword_string);
-	}
-
-	/**
-	* Send the email
-	*
-	* @param \messenger $messenger
-	* @param string $contact
-	* @return null
-	*/
-	public function send(\messenger $messenger, $contact)
-	{
-		if (!sizeof($this->recipients))
-		{
-			return;
-		}
-
-		foreach ($this->recipients as $recipient)
-		{
-			$messenger->template($this->template, $recipient['lang']);
-			$messenger->replyto($this->sender_address);
-			$messenger->to($recipient['address'], $recipient['name']);
-			$messenger->im($recipient['jabber'], $recipient['username']);
-
-			$messenger->headers('X-AntiAbuse: Board servername - ' . $this->server_name);
-			$messenger->headers('X-AntiAbuse: User IP - ' . $this->sender_ip);
-
-			if ($this->sender_id)
-			{
-				$messenger->headers('X-AntiAbuse: User_id - ' . $this->sender_id);
-			}
-			if ($this->sender_username)
-			{
-				$messenger->headers('X-AntiAbuse: Username - ' . $this->sender_username);
-			}
-
-			$messenger->subject(htmlspecialchars_decode($this->subject));
-
-			$messenger->assign_vars(array(
-				'BOARD_CONTACT'	=> $contact,
-				'TO_USERNAME'	=> htmlspecialchars_decode($recipient['to_name']),
-				'FROM_USERNAME'	=> htmlspecialchars_decode($this->sender_name),
-				'MESSAGE'		=> htmlspecialchars_decode($this->body))
-			);
-
-			if (sizeof($this->template_vars))
-			{
-				$messenger->assign_vars($this->template_vars);
-			}
-
-			$messenger->send($recipient['notify_type']);
-		}
 	}
 }
