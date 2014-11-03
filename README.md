@@ -5,10 +5,10 @@
 phpBB Add User Extension allows an administrator of a forum to add a user into the phpBB database.
 
 ##Features
-Allows admin to enter in custom profile fields for the user
-Allows admin to enter in a password or have one generated
-Allows admin to set a users birthday if birthdays are allowed on the forum
-Email will be sent to the newly added user
+- Allows admin to enter in custom profile fields for the user
+- Allows admin to enter in a password or have one generated
+- Allows admin to set a users birthday if birthdays are allowed on the forum
+- Email will be sent to the newly added user
 
 
 ##Installation
