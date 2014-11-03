@@ -29,7 +29,7 @@ class adduser_module
 		$this->log = $phpbb_container->get('log');
 		$this->phpbb_admin_path = $phpbb_admin_path;
 
-		$admin_activate = (isset($_POST['activate'])) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
+		$admin_activate = ($request->variable('activate', '')) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
 
 		$this->page_title = $user->lang['ACP_ADD_USER'];
 		$this->tpl_name = 'acp_adduser';
