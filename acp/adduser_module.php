@@ -67,7 +67,7 @@ class adduser_module
 			'password_confirm'	=> $this->request->variable('password_confirm', '', true),
 			'email'				=> strtolower($this->request->variable('email', '')),
 			'lang'				=> basename($this->request->variable('lang', $this->user->lang_name)),
-			'tz'				=> request_var('tz', $timezone),
+			'tz'				=> $this->request->variable('tz', $timezone),
 			'group' 			=> $this->request->variable('group', 0),
 		);
 
