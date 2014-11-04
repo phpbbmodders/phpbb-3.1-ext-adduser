@@ -226,27 +226,27 @@ class adduser_module
 
 				// send a message to the user...if needed
 				$message = array();
-				if ($config['require_activation'] == USER_ACTIVATION_SELF && $config['email_enable'])
+				if ($this->config['require_activation'] == USER_ACTIVATION_SELF && $this->config['email_enable'])
 				{
-					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE'];
+					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE'];
 					$email_template = '@rmcgirr83_adduser/user_added_inactive';
 				}
-				else if ($config['require_activation'] == USER_ACTIVATION_ADMIN && $config['email_enable'] && !$admin_activate)
+				else if ($this->config['require_activation'] == USER_ACTIVATION_ADMIN && $this->config['email_enable'] && !$admin_activate)
 				{
-					$message[] = $user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
+					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
 					$email_template = '@rmcgirr83_adduser/user_added_admin_welcome_inactive';
 				}
 				else
 				{
-					$message[] = $user->lang['ACP_ACCOUNT_ADDED'];
+					$message[] = $this->user->lang['ACP_ACCOUNT_ADDED'];
 					$email_template = '@rmcgirr83_adduser/user_added_welcome';
 				}
 
-				if ($config['email_enable'])
+				if ($this->config['email_enable'])
 				{
 					if (!class_exists('messenger'))
 					{
-						include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
+						include($this->phpbb_root_path . 'includes/functions_messenger.' . $this->php_ext);
 					}
 
 					$messenger = new \messenger(false);
@@ -255,13 +255,13 @@ class adduser_module
 
 					$messenger->to($data['email'], $data['username']);
 
-					$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
-					$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
-					$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
-					$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+					$messenger->headers('X-AntiAbuse: Board servername - ' . $this->config['server_name']);
+					$messenger->headers('X-AntiAbuse: User_id - ' . $this->user->data['user_id']);
+					$messenger->headers('X-AntiAbuse: Username - ' . $this->user->data['username']);
+					$messenger->headers('X-AntiAbuse: User IP - ' . $this->user->ip);
 
 					$messenger->assign_vars(array(
-						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($user->lang['WELCOME_SUBJECT'], $config['sitename'])),
+						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($this->user->lang['WELCOME_SUBJECT'], $this->config['sitename'])),
 						'USERNAME'		=> htmlspecialchars_decode($data['username']),
 						'PASSWORD'		=> htmlspecialchars_decode($data['new_password']),
 						'U_ACTIVATE'	=> "$server_url/ucp.$phpEx?mode=activate&u=$user_id&k=$user_actkey")
@@ -339,24 +339,7 @@ class adduser_module
 		}
 
 		// Get the groups, so that the user can be added to them
-		$ignore_groups = array('BOTS', 'ANONYMOUS', 'REGISTERED', 'NEWLY_REGISTERED');
-		$sql = 'SELECT group_name, group_id, group_type
-			FROM ' . GROUPS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_name', $ignore_groups, true) . '
-			ORDER BY group_type DESC, group_name ASC';
-		$result = $this->db->sql_query($sql);
-
-		$s_group_options = '<select name="group"><option value="0" select="selected">' . $this->user->lang['NO_GROUP'] . '</option>';
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			if (!$this->config['coppa_enable'] && $row['group_name'] == 'REGISTERED_COPPA')
-			{
-				continue;
-			}
-			$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
-		}
-		$s_group_options .='</select>';
-		$this->db->sql_freeresult($result);
+		$s_group_options = $this->get_groups();
 
 		$timezone_selects = phpbb_timezone_select($template, $user, $data['tz'], true);
 		$this->template->assign_vars(array(
@@ -422,5 +405,30 @@ class adduser_module
 		}
 
 		return str_shuffle($pword_string);
+	}
+
+	//function to return groups that are allowed
+	public function get_groups()
+	{
+		$ignore_groups = array('BOTS', 'GUESTS', 'REGISTERED', 'NEWLY_REGISTERED');
+		$sql = 'SELECT group_name, group_id, group_type
+			FROM ' . GROUPS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_name', $ignore_groups, true) . '
+			ORDER BY group_name ASC';
+		$result = $this->db->sql_query($sql);
+
+		$s_group_options = '<select name="group"><option value="0" select="selected">' . $this->user->lang['NO_GROUP'] . '</option>';
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			if (!$this->config['coppa_enable'] && $row['group_name'] == 'REGISTERED_COPPA')
+			{
+				continue;
+			}
+			$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
+		}
+		$s_group_options .='</select>';
+		$this->db->sql_freeresult($result);
+		
+		return $s_group_options;
 	}
 }
