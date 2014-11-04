@@ -37,15 +37,15 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACP_ACCOUNT_ADDED'			=> 'Het gebruikersaccount is aangemaakt. De gebruiker kan zich nu aanmelden met de gebruikersnaam en wachtwoord dat verstuurd is naar het e-mailadres dat is opgegeven.',
-	'ACP_ACCOUNT_INACTIVE'		=> 'Het gebruikersaccount is aangemaakt. Echter, de foruminstellingen vereisen dat de gebruiker het account zelf activeert.<br />Een activatie sleutel is verstuurd naar het opgegeven e-mailadres.',
-	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Het gebruikersaccount is aangemaakt. Echter, de foruminstellingen vereisen dat het account wordt geactiveerd door een beheerder.<br />Een e-mail is verstuurd naar de beheerders, de gebruiker zal geinformeerd worden wanneer hun account geactiveerd is',
+	'ACP_ACCOUNT_INACTIVE'		=> 'Het gebruikersaccount is aangemaakt. Echter, de foruminstellingen vereisen dat de gebruiker het account zelf activeert.<br />Een activatiesleutel is verstuurd naar het opgegeven e-mailadres.',
+	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Het gebruikersaccount is aangemaakt. Echter, de foruminstellingen vereisen dat het account wordt geactiveerd door een beheerder.<br />Een e-mail is verstuurd naar de beheerders, de gebruiker zal geïnformeerd worden wanneer hun account geactiveerd is',
 	'ACP_ADD_USER'				=> 'ACP Gebruiker Toevoegen',
-	'ACP_ADMIN_ACTIVATE'		=> 'Een e-mail zal worden verzonden naar een beheerder voor het account activatie, als alternatief kan je het activeer account vak aanvinken hieronder om het account direct te activeren nadat het account is aangemaakt. De gebruiker zal een e-mail ontvangen met daarin de account details.',
-	'ACP_EMAIL_ACTIVATE'		=> 'Wanneer het account is aangemaakt, zal de gebruiker een e-mail ontvangen met daarin een activatie link om de account te activeren.',
-	'ACP_INSTANT_ACTIVATE'		=> 'Het account zal meteen geactiveerd worden. De gebruiker zal een e-mail ontvangen met daarin zijn account details..',
+	'ACP_ADMIN_ACTIVATE'		=> 'Een e-mail zal worden verstuurd naar een beheerder voor de accountactivatie, als alternatief kan je het “activeer account”-vak hieronder aanvinken om het account direct te activeren nadat het account is aangemaakt. De gebruiker zal een e-mail ontvangen met daarin de accountdetails.',
+	'ACP_EMAIL_ACTIVATE'		=> 'Wanneer het account is aangemaakt, zal de gebruiker een e-mail ontvangen met daarin een activatielink om de account te activeren.',
+	'ACP_INSTANT_ACTIVATE'		=> 'Het account zal meteen geactiveerd worden. De gebruiker zal een e-mail ontvangen met daarin zijn accountdetails..',
 
 	'ADD_USER'					=> 'Gebruiker toevoegen',
-	'ADD_USER_EXPLAIN'			=> 'Een nieuw gebruikersaccount aanmaken. Als je %saccount-activatie instellingen%s ingesteld zijn op "door beheerder", dan heb je de optie om het gebruikersaccount meteen te activeren.',
+	'ADD_USER_EXPLAIN'			=> 'Een nieuw gebruikersaccount aanmaken. Als je %saccountactivatie instellingen%s ingesteld zijn op "door beheerder", dan heb je de optie om het gebruikersaccount meteen te activeren.',
 	'MOD_VERSION'				=> 'Versie %s',
 	'ADMIN_ACTIVATE'			=> 'Activeer gebruikersaccount',
 	'CONFIRM_PASSWORD'			=> 'Bevestig wachtwoord',
@@ -54,5 +54,5 @@ $lang = array_merge($lang, array(
 
 	'CONTINUE_EDIT_USER'		=> '%1$sKlik hier om %2$s’s profiel te beheren%3$s', // e.g.: Click here to edit Joe’s profile.
 	'PASSWORD'					=> 'Wachtwoord',
-	'PASSWORD_EXPLAIN'			=> 'Als je hier een wachtwoord opgeeft, dan zal er geen automatische gegenereerd worden.',
+	'PASSWORD_EXPLAIN'			=> 'Als je hier een wachtwoord opgeeft, dan zal er niet automatisch een wachtwoord gegenereerd worden.',
 ));
