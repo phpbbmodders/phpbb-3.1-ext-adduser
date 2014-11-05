@@ -42,7 +42,7 @@ $lang = array_merge($lang, array(
 	'ACP_ADMIN_ACTIVATE'		=> 'Un correo electrónico será enviado a un Administrador para la activación de la cuenta, de forma alternativa, puede marcar la casilla de abajo para activar la cuenta al instante una vez creada. El usuario recibirá un correo electrónico con los datos de la cuenta, y poder iniciar sesión.',
 	'ACP_EMAIL_ACTIVATE'		=> 'Una vez que la cuenta ha sido creada, el usuario recibirá un correo electrónico con un enlace de activación para activar la cuenta.',
 	'ACP_INSTANT_ACTIVATE'		=> 'La cuenta se activará al instante. El usuario recibirá un correo electrónico con datos de acceso a su cuenta.',
-	
+
 	'ADD_USER'					=> 'Agregar Usuario',
 	'ADD_USER_EXPLAIN'			=> 'Crear una nueva cuenta de usuario. Si los %sajustes de activación%s están para Administradores solamente, usted tendrá la opción de activar el usuario al instante.',
 	'MOD_VERSION'				=> 'Versión %s',
