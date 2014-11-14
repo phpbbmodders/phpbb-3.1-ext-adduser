@@ -242,7 +242,7 @@ class adduser_module
 					$email_template = '@rmcgirr83_adduser/user_added_welcome';
 				}
 
-				if ($this->config['email_enable'])
+				if ($config['email_enable'])
 				{
 					if (!class_exists('messenger'))
 					{
@@ -371,7 +371,7 @@ class adduser_module
 	}
 
 	//function to generate passwords
-	public function generate_password($length, $type)
+	private function generate_password($length, $type)
 	{
 		$lowercase = "abcdefghijklmnopqrstuvwxyz";
 		$uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -408,7 +408,7 @@ class adduser_module
 	}
 
 	//function to return groups that are allowed
-	public function get_groups()
+	private function get_groups()
 	{
 		$ignore_groups = array('BOTS', 'GUESTS', 'REGISTERED', 'NEWLY_REGISTERED');
 		$sql = 'SELECT group_name, group_id, group_type
@@ -428,7 +428,7 @@ class adduser_module
 		}
 		$s_group_options .='</select>';
 		$this->db->sql_freeresult($result);
-
+		
 		return $s_group_options;
 	}
 }
