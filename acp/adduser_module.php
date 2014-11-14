@@ -428,7 +428,7 @@ class adduser_module
 		}
 		$s_group_options .='</select>';
 		$this->db->sql_freeresult($result);
-		
+
 		return $s_group_options;
 	}
 }
