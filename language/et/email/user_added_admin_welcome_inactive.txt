@@ -1,0 +1,22 @@
+Subject: Sinu kasutajakonto "{SITENAME}" on loodud
+
+{WELCOME_MSG}
+
+Palun hoia see e-kiri alles. Sinu kasutajakonto informatsioon on järgnev:
+
+----------------------------
+Kasutajanimi: {USERNAME}
+
+Foorumi URL: {U_BOARD}
+
+Parool: {PASSWORD}
+----------------------------
+
+Sinu kasutajakonto peab foorumi administraator aktiveerima, enne kui saad siseneda foorumisse. Sulle saadetakse e-kiri, kui kasutajakonto on aktiveeritud administraatori poolt.
+
+Sinu parooli hoitakse andmebaasis turvaliselt, ning seda ei ole võimalik enam taastada. Juhul, kui sa siiski unustad oma parooli, siis on sul võimalik tellida uus parool kasutades "Ma unustasin oma parooli" linki.
+
+NB! Peale foorumile sisenemist, vaheta oma parool ära.
+
+
+{EMAIL_SIG}
