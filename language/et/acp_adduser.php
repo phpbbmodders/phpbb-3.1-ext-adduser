@@ -1,7 +1,7 @@
 <?php
 /**
 * 
-* @copyright (c) 201 Rich McGirr
+* @copyright (c) 201 Rich McGirr; Estonian translation by www.phpbbeesti.com 11/2014
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
