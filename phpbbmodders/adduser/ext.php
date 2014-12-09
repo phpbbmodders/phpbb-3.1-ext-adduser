@@ -7,7 +7,7 @@
 *
 */
 
-namespace rmcgirr83\adduser;
+namespace phpbbmodders\adduser;
 
 /**
 * @ignore

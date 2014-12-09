@@ -1,6 +1,6 @@
 #phpBB Add User Extension
 
-[![Build Status](https://travis-ci.org/RMcGirr83/phpbb-3.1-ext-adduser.svg)](https://travis-ci.org/RMcGirr83/phpbb-3.1-ext-adduser)
+[![Build Status](https://travis-ci.org/phpbbmodders/phpbb-3.1-ext-adduser.svg)](https://travis-ci.org/phpbbmodders/phpbb-3.1-ext-adduser)
 ##About
 phpBB Add User Extension allows an administrator of a forum to add a user into the phpBB database.
 
@@ -13,11 +13,11 @@ phpBB Add User Extension allows an administrator of a forum to add a user into t
 
 ##Installation
 ### 1. clone
-Clone (or download and move) the repository into the folder phpBB3/ext/rmcgirr83/adduser:
+Clone (or download and move) the repository into the folder phpBB3/ext/phpbbmodders/adduser:
 
 ```
 cd phpBB3
-git clone https://github.com/RMcGirr83/phpbb-3.1-ext-adduser ext/rmcgirr83/adduser/
+git clone https://github.com/phpbbmodders/phpbb-3.1-ext-adduser ext/phpbbmodders/adduser/
 ```
 
 ### 2. activate

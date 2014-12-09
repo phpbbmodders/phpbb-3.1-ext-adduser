@@ -7,7 +7,7 @@
 *
 */
 
-namespace rmcgirr83\adduser\migrations;
+namespace phpbbmodders\adduser\migrations;
 
 class install_adduser extends \phpbb\db\migration\migration
 {
@@ -30,8 +30,8 @@ class install_adduser extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_CAT_USERS',
 				array(
-					'module_basename'	=> '\rmcgirr83\adduser\acp\adduser_module',
-					'auth'				=> 'ext_rmcgirr83/adduser && acl_a_user',
+					'module_basename'	=> '\phpbbmodders\adduser\acp\adduser_module',
+					'auth'				=> 'ext_phpbbmodders/adduser && acl_a_user',
 					'modes'				=> array('main'),
 				),
 			)),
@@ -47,7 +47,7 @@ class install_adduser extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_CAT_USERS',
 				array(
-					'module_basename'	=> '\rmcgirr83\adduser\acp\adduser_module',
+					'module_basename'	=> '\phpbbmodders\adduser\acp\adduser_module',
 				),
 			)),
 		);

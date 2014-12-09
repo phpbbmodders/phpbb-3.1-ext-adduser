@@ -7,7 +7,7 @@
 *
 */
 
-namespace rmcgirr83\adduser\acp;
+namespace phpbbmodders\adduser\acp;
 
 /**
 * @package module_install
@@ -17,11 +17,11 @@ class adduser_info
 	function module()
 	{
 		return array(
-			'filename'	=> 'rmcgirr83\adduser\acp\adduser_module',
+			'filename'	=> 'phpbbmodders\adduser\acp\adduser_module',
 			'title'		=> 'ADD_USER',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
-				'main'	=> array('title' => 'ACP_ADD_USER', 'auth'	=> 'ext_rmcgirr83/adduser && acl_a_user', 'cat'	=> array('ACP_CAT_USERS')),
+				'main'	=> array('title' => 'ACP_ADD_USER', 'auth'	=> 'ext_phpbbmodders/adduser && acl_a_user', 'cat'	=> array('ACP_CAT_USERS')),
 			),
 		);
 	}

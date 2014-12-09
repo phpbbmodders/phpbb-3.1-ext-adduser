@@ -7,7 +7,7 @@
 *
 */
 
-namespace rmcgirr83\adduser\acp;
+namespace phpbbmodders\adduser\acp;
 
 class adduser_module
 {
@@ -44,7 +44,7 @@ class adduser_module
 		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
 
 		// Add the add user ACP lang file
-		$this->user->add_lang_ext('rmcgirr83/adduser', 'acp_adduser');
+		$this->user->add_lang_ext('phpbbmodders/adduser', 'acp_adduser');
 
 		// add custom profile fields
 		$cp = $phpbb_container->get('profilefields.manager');
@@ -229,17 +229,17 @@ class adduser_module
 				if ($this->config['require_activation'] == USER_ACTIVATION_SELF && $this->config['email_enable'])
 				{
 					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE'];
-					$email_template = '@rmcgirr83_adduser/user_added_inactive';
+					$email_template = '@phpbbmodders_adduser/user_added_inactive';
 				}
 				else if ($this->config['require_activation'] == USER_ACTIVATION_ADMIN && $this->config['email_enable'] && !$admin_activate)
 				{
 					$message[] = $this->user->lang['ACP_ACCOUNT_INACTIVE_ADMIN'];
-					$email_template = '@rmcgirr83_adduser/user_added_admin_welcome_inactive';
+					$email_template = '@phpbbmodders_adduser/user_added_admin_welcome_inactive';
 				}
 				else
 				{
 					$message[] = $this->user->lang['ACP_ACCOUNT_ADDED'];
-					$email_template = '@rmcgirr83_adduser/user_added_welcome';
+					$email_template = '@phpbbmodders_adduser/user_added_welcome';
 				}
 
 				if ($config['email_enable'])
