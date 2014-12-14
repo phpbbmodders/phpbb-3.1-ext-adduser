@@ -5,6 +5,7 @@
  * @author RMcGirr83  (Rich McGirr) rmcgirr83@rmcgirr83.org
  * @copyright (c) 2014 phpbbmodders.net
  * @license GNU General Public License, version 2 (GPL-2.0)
+ * @translated into German by Samyonair (http://www.wowfriends.de)
  *
  */
 
@@ -38,7 +39,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// ACP Module
-	'ACP_ADD_USER'				=> 'ACP Benutzer hinzuf&uuml;gen',
+	'ACP_ADD_USER'				=> 'Benutzer hinzuf&uuml;gen via ACP',
 
 	// ACP Logs
 	'LOG_USER_ADDED'			=> '<strong>Neuer Benutzer angelegt</strong><br />» %s',
