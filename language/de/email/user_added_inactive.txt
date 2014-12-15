@@ -1,0 +1,24 @@
+Subject: Du wurdest auf "{SITENAME}" als Benutzer hinzugefügt
+
+{WELCOME_MSG}
+
+Bitte hebe diese E-Mail für deine Unterlagen auf. Deine Login-Daten lauten wie folgt:
+
+----------------------------
+Benutzername: {USERNAME}
+
+Foren-URL: {U_BOARD}
+
+Passwort: {PASSWORD}
+----------------------------
+
+Bitte folge folgendem Link um deinen Benutzer zu aktivieren:
+
+{U_ACTIVATE}
+
+Dein Passwort wurde verschlüsselt in der Datenbank gespeichert, ein Auslesen und Wiederherstellen ist daher nicht möglich.
+Sollte das Passwort vergessen werden, ist es dir mit Hilfe deiner registrierten E-Mailadresse möglich das Passwort zurückzusetzen.
+
+Wir raten dir dringend das Passwort bei deinem ersten Besuch des Forums zu ändern.
+
+{EMAIL_SIG}
