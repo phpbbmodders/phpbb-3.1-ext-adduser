@@ -12,7 +12,7 @@ Foren-URL: {U_BOARD}
 Passwort: {PASSWORD}
 ----------------------------
 
-Bitte folgen Sie folgendem Link, um Ihren Benutzer freizuschalten: 
+Bitte folgen Sie folgendem Link, um Ihren Benutzer freizuschalten:
 
 {U_ACTIVATE}
 

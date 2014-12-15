@@ -19,6 +19,6 @@ Bitte folge folgendem Link um deinen Benutzer zu aktivieren:
 Dein Passwort wurde verschlüsselt in der Datenbank gespeichert, ein Auslesen und Wiederherstellen ist daher nicht möglich.
 Sollte das Passwort vergessen werden, ist es dir mit Hilfe deiner registrierten E-Mailadresse möglich das Passwort zurückzusetzen.
 
-Wir raten dir dringend das Passwort bei deinem ersten Besuch des Forums zu ändern. 
+Wir raten dir dringend das Passwort bei deinem ersten Besuch des Forums zu ändern.
 
 {EMAIL_SIG}
