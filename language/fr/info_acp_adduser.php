@@ -5,7 +5,7 @@
  * @author RMcGirr83  (Rich McGirr) rmcgirr83@rmcgirr83.org
  * @copyright (c) 2014 phpbbmodders.net
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @translated into French by ForumsFaciles (http://www.forumsfaciles.fr)
+ * @translated into French by ForumsFaciles (http://www.forumsfaciles.fr) & Galixte (http://www.galixte.com)
  *
  */
 
@@ -39,7 +39,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// ACP Module
-	'ACP_ADD_USER'				=> 'Ajout d’utlisateur via le PCA',
+	'ACP_ADD_USER'				=> 'Créer un nouvel utilisateur',
 
 	// ACP Logs
 	'LOG_USER_ADDED'			=> '<strong>Nouvel utilisateur créé</strong><br />» %s',
