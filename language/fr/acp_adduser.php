@@ -8,7 +8,7 @@
  * @translated into French by ForumsFaciles (http://www.forumsfaciles.fr) & Galixte (http://www.galixte.com)
  *
  */
- 
+
 /**
 * @ignore
 */
