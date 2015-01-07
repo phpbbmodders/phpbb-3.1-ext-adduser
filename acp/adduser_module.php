@@ -452,14 +452,14 @@ class adduser_module
 	/*
      * Get an array that represents directory tree
      */
-    public function dir_to_array($directory)
+	public function dir_to_array($directory)
 	{
 		$directories = glob($directory . '/*' , GLOB_ONLYDIR);
 		$dir_array = array();
-		foreach ($directories as $key=>$value)
+		foreach ($directories as $key => $value)
 		{
 			$dir_array[] = substr(strrchr($value, '/'), 1);
 		}
 		return $dir_array;
-    }
+	}
 }
