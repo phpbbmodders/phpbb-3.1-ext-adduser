@@ -8,7 +8,7 @@
  *
  */
 
-namespace phpbbmodders\adduser\migrations;
+namespace phpbbmodders\adduser\migrations\v1x;
 
 class install_adduser extends \phpbb\db\migration\migration
 {

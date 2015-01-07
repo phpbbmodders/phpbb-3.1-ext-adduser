@@ -36,10 +36,14 @@
 		<dd><select name="lang" id="lang">{S_LANG_OPTIONS}</select></dd>
 	</dl>
 	<!-- INCLUDE timezone_option.html -->
-	<dl>
+	<dl id="groups">
 		<dt><label for="group">{L_GROUPS}{L_COLON}</label><br /><span>{L_GROUP_ADD}</span></dt>
 		<dd>{S_GROUP_OPTIONS}</dd>
-	</dl>	
+	</dl>
+	<dl class="default_group" style="display:none;">
+		<dt><label for="group_default">{L_GROUP_DEFAULT}{L_COLON}</label><br /><span>{L_GROUP_DEFAULT_EXPLAIN}</span></dt>
+		<dd><input id="group_default" class="radio" type="checkbox" value="1"{U_GROUP_DEFAULT} name="group_default" /></dd>
+	</dl>
 	<!-- IF S_BIRTHDAYS_ENABLED -->
 	<dl>
 		<dt><label for="birthday">{L_BIRTHDAY}{L_COLON}</label><br /><span>{L_BIRTHDAY_EXPLAIN}</span></dt>

@@ -30,7 +30,9 @@ class adduser_module
 		$this->log = $phpbb_container->get('log');
 		$this->phpbb_admin_path = $phpbb_admin_path;
 
-		$admin_activate = ($request->variable('activate', '')) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
+		$admin_activate = ($this->request->variable('activate', 0)) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
+		$group_default = $this->request->variable('group_default', 0);
+		$group_selected = $this->request->variable('group', 0);
 
 		$this->page_title = $user->lang['ACP_ADD_USER'];
 		$this->tpl_name = 'acp_adduser';
@@ -43,9 +45,6 @@ class adduser_module
 
 		// include lang files we need
 		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
-
-		// Add the add user ACP lang file
-		$this->user->add_lang_ext('phpbbmodders/adduser', 'acp_adduser');
 
 		// add custom profile fields
 		$cp = $phpbb_container->get('profilefields.manager');
@@ -71,6 +70,15 @@ class adduser_module
 			'tz'				=> $this->request->variable('tz', $timezone),
 			'group' 			=> $this->request->variable('group', 0),
 		);
+
+		// build an array of all lang directories for the extension and check to make sure we have the lang available that is being chosen
+		// if the lang isn't present then errors will present themselves due to no email template found
+		$dir_array = $this->dir_to_array($this->phpbb_root_path .'ext/phpbbmodders/adduser/language');
+
+		if (!in_array($data['lang'], $dir_array))
+		{
+			trigger_error(sprintf($this->user->lang['DIR_NOT_EXIST'], $data['lang'], $data['lang']));
+		}
 
 		if ($this->config['allow_birthdays'])
 		{
@@ -214,7 +222,14 @@ class adduser_module
 				$user_id = user_add($user_row, $cp_data);
 				if (!empty($data['group']))
 				{
-					group_user_add($data['group'],$user_id);
+					if (!empty($group_default))
+					{
+						group_user_add($data['group'], array($user_id), false, false, true);
+					}
+					else
+					{
+						group_user_add($data['group'], array($user_id));
+					}
 				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED', time(), array($data['username']));
@@ -340,7 +355,7 @@ class adduser_module
 		}
 
 		// Get the groups, so that the user can be added to them
-		$s_group_options = $this->get_groups();
+		$s_group_options = $this->get_groups($group_selected);
 
 		$timezone_selects = phpbb_timezone_select($template, $user, $data['tz'], true);
 		$this->template->assign_vars(array(
@@ -349,19 +364,20 @@ class adduser_module
 			'EMAIL'				=> $data['email'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
-			'L_PASSWORD_EXPLAIN'	=> $this->user->lang['PASSWORD_EXPLAIN'] . '<br />' . sprintf($this->user->lang[$this->config['pass_complex'] . '_EXPLAIN'], $this->config['min_pass_chars'], $this->config['max_pass_chars']),
 
-			'L_USERNAME_EXPLAIN'	=> sprintf($this->user->lang[$this->config['allow_name_chars'] . '_EXPLAIN'], $this->config['min_name_chars'], $this->config['max_name_chars']),
+			'L_PASSWORD_EXPLAIN'	=> $this->user->lang($config['pass_complex'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_pass_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_pass_chars'])) . ' ' . $this->user->lang['PASSWORD_EXPLAIN'],
+			'L_USERNAME_EXPLAIN'	=> $this->user->lang($config['allow_name_chars'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_name_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_name_chars'])),
 			'L_ADD_USER_EXPLAIN'	=> sprintf($this->user->lang['ADD_USER_EXPLAIN'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=acp_board&amp;mode=registration') . '">', '</a>'),
-
-			'S_LANG_OPTIONS'	=> language_select($data['lang']),
 			'L_REG_COND'		=> $l_reg_cond,
-
-			'S_GROUP_OPTIONS'	=> $s_group_options,
 			'L_MOD_VERSION'		=> sprintf($this->user->lang['MOD_VERSION'] , $this->config['adduser_version']),
 
-			'S_ADMIN_ACTIVATE'			=> ($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false,
-			'U_ADMIN_ACTIVATE'			=> ($admin_activate) ? ' checked="checked"' : '',
+			'S_USER_ADD'		=> true,
+			'S_GROUP_OPTIONS'	=> $s_group_options,
+			'S_LANG_OPTIONS'	=> language_select($data['lang']),
+			'S_ADMIN_ACTIVATE'	=> ($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false,
+
+			'U_ADMIN_ACTIVATE'	=> ($admin_activate) ? ' checked="checked"' : '',
+			'U_GROUP_DEFAULT'	=> ($group_default) ? ' checked="checked"' : '',
 		));
 
 		$this->user->profile_fields = array();
@@ -409,7 +425,7 @@ class adduser_module
 	}
 
 	//function to return groups that are allowed
-	private function get_groups()
+	private function get_groups($group_selected)
 	{
 		$ignore_groups = array('BOTS', 'GUESTS', 'REGISTERED', 'NEWLY_REGISTERED');
 		$sql = 'SELECT group_name, group_id, group_type
@@ -418,18 +434,32 @@ class adduser_module
 			ORDER BY group_name ASC';
 		$result = $this->db->sql_query($sql);
 
-		$s_group_options = '<select name="group"><option value="0" select="selected">' . $this->user->lang['NO_GROUP'] . '</option>';
+		$s_group_options = '<select id="group" name="group"><option value="0">' . $this->user->lang['NO_GROUP'] . '</option>';
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			if (!$this->config['coppa_enable'] && $row['group_name'] == 'REGISTERED_COPPA')
 			{
 				continue;
 			}
-			$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '">' . (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
+			$selected = $row['group_id'] == $group_selected ? ' selected="selected"' : '';
+			$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '"' . $selected . '>' . (($row['group_type'] == GROUP_SPECIAL) ? $this->user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
 		}
 		$s_group_options .='</select>';
 		$this->db->sql_freeresult($result);
 
 		return $s_group_options;
 	}
+	/*
+     * Get an array that represents directory tree
+     */
+    public function dir_to_array($directory)
+	{
+		$directories = glob($directory . '/*' , GLOB_ONLYDIR);
+		$dir_array = array();
+		foreach ($directories as $key=>$value)
+		{
+			$dir_array[] = substr(strrchr($value, '/'), 1);
+		}
+		return $dir_array;
+    }
 }
