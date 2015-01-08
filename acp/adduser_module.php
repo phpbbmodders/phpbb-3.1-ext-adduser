@@ -376,8 +376,8 @@ class adduser_module
 			'S_LANG_OPTIONS'	=> language_select($data['lang']),
 			'S_ADMIN_ACTIVATE'	=> ($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false,
 
-			'U_ADMIN_ACTIVATE'	=> ($admin_activate) ? ' checked="checked"' : '',
-			'U_GROUP_DEFAULT'	=> ($group_default) ? ' checked="checked"' : '',
+			'U_ADMIN_ACTIVATE'	=> ($admin_activate) ? 'checked="checked"' : '',
+			'U_GROUP_DEFAULT'	=> ($group_default) ? 'checked="checked"' : '',
 		));
 
 		$this->user->profile_fields = array();
