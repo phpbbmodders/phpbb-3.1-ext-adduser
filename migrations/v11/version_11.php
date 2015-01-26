@@ -19,7 +19,7 @@ class version_11 extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return array('\phpbbmodders\migrations\v10\install_v10');
+		return array('\phpbbmodders\adduser\migrations\v10\install_v10');
 	}
 
 	public function update_data()

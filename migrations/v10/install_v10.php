@@ -10,7 +10,7 @@
 
 namespace phpbbmodders\adduser\migrations\v10;
 
-class install_adduser extends \phpbb\db\migration\migration
+class install_v10 extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
