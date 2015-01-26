@@ -17,6 +17,11 @@ class version_11 extends \phpbb\db\migration\migration
 		return isset($this->config['adduser_version']) && version_compare($this->config['adduser_version'], '1.0.1', '>=');
 	}
 
+	static public function depends_on()
+	{
+		return array('\phpbbmodders\migrations\v10\install_v10');
+	}
+
 	public function update_data()
 	{
 		return array(
