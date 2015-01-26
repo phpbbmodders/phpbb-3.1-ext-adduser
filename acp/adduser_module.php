@@ -77,7 +77,7 @@ class adduser_module
 
 		if (!in_array($data['lang'], $dir_array))
 		{
-			trigger_error(sprintf($this->user->lang['DIR_NOT_EXIST'], $data['lang'], $data['lang']));
+			trigger_error(sprintf($this->user->lang['DIR_NOT_EXIST'], $data['lang'], $data['lang']), E_USER_WARNING);
 		}
 
 		if ($this->config['allow_birthdays'])
