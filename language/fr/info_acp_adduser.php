@@ -44,7 +44,7 @@ $lang = array_merge($lang, array(
 	'ACP_ACCOUNT_ADDED'			=> 'Le compte utilisateur a été créé. L’utilisateur peut désormais se connecter avec le pseudo et le mot de passe envoyés à l’adresse e-mail que vous avez indiquée.',
 	'ACP_ACCOUNT_INACTIVE'		=> 'Le compte utilisateur a été créé. Cependant, les paramètres du forum exigent que l’utilisateur active son compte.<br />A cet effet, une clef d’activation a été envoyée à l’adresse email que vous avez indiquée pour l’utilisateur.',
 	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Le compte utilisateur a été créé. Cependant, les paramètres du forum exigent que le compte soit activé par un administrateur.<br />Un e-mail a été envoyé aux administrateurs et l’utilisateur sera informé lorsque son compte aura été activé',
-	'ACP_ADMIN_ACTIVATE'		=> 'Un e-mail sera envoyé à un administrateur pour l’activation du compte. Cependant vous pouvez également cocher la case ci-dessous "Activer le compte utilisateur" pour activer le compte immédiatement une fois qu’il a été créé. L’utilisateur recevra un e-mail contenant les identifiants de connexion.',
+	'ACP_ADMIN_ACTIVATE'		=> 'Un e-mail sera envoyé à un administrateur pour l’activation du compte. Cependant vous pouvez également cocher la case ci-dessous “Activer le compte utilisateur” pour activer le compte immédiatement une fois qu’il a été créé. L’utilisateur recevra un e-mail contenant les identifiants de connexion.',
 	'ACP_EMAIL_ACTIVATE'		=> 'Une fois le compte créé, l’utilisateur recevra un e-mail contenant un lien pour activer son compte.',
 	'ACP_INSTANT_ACTIVATE'		=> 'Le compte sera activé immédiatement. L’utilisateur recevra un e-mail contenant ses identifiants de connexion.',
 
