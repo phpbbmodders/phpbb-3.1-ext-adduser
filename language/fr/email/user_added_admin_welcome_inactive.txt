@@ -1,0 +1,22 @@
+Objet : Vous avez été inscrit sur le forum "{SITENAME}"
+
+{WELCOME_MSG}
+
+Conservez cet e-mail dans vos archives. Les informations de votre compte sont les suivantes :
+
+----------------------------
+Nom d’utilisateur : {USERNAME}
+
+Adresse du forum : {U_BOARD}
+
+Mot de passe : {PASSWORD}
+----------------------------
+
+Votre compte est actuellement inactif et devra être approuvé par un administrateur avant que vous puissiez vous y connecter. Vous recevrez un autre e-mail lorsque cela sera fait.
+
+Votre mot de passe a été stocké de manière sécurisée dans notre base de données et ne pourra pas être retrouvé. Dans le cas où vous l’auriez oublié, vous pourrez le reinitialise en utilisant l’adresse e-mail associée à votre compte.
+
+Nous vous recommandons fortement de modifier votre mot de passe dès votre première connexion au forum.
+
+
+{EMAIL_SIG}
