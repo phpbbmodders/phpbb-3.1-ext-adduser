@@ -1,4 +1,4 @@
-Objet : Vous avez été inscrit sur le forum "{SITENAME}"
+Objet : Vous avez été inscrit sur le forum « {SITENAME} »
 
 {WELCOME_MSG}
 
