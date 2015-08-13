@@ -5,9 +5,9 @@ Betreff: Du Wurdest zu "{SITENAME} hinzugefügt"
 Bitte heb diese E-mail für deine Unterlagen auf. Folgende Benutzerangaben wurden für dich eingerichtet:
 
 ----------------------------
-Username: {USERNAME}
+Benutzername: {USERNAME}
 
-Board URL: {U_BOARD}
+Foren URL: {U_BOARD}
 
 Passwort: {PASSWORD}
 ----------------------------

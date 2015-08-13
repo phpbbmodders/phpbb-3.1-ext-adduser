@@ -38,25 +38,25 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// ACP Module
-	'ACP_ADD_USER'				=> 'ACP Benutzer anlegen',
-	'DIR_NOT_EXIST'				=> 'Die Sprachauswahl %s does not have the files needed for the extension. Please translate them and upload to the %s directory of the extension to use the extension.',
-	'ACP_ACCOUNT_ADDED'			=> 'The user account has been created. The user may now login with the username and password sent to the email address you provided.',
-	'ACP_ACCOUNT_INACTIVE'		=> 'The user account has been created. However, the forum settings require the user to activate their account.<br />An activation key has been sent to the email address you provided for the user.',
-	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'The account has been created. However, the forum settings require account activation by an administrator.<br />An email has been sent to the Administrators and the user will be informed when their account has been activated',
+	'ACP_ADD_USER'				=> 'Benutzer anlegen',
+	'DIR_NOT_EXIST'				=> 'Die Sprachauswahl %s funktioniert nicht da die erforderlichen Dateien fehlen. Bitte übersetzen und ins Verzeichnis %s hochladen um die Sprache zu benutzen.',
+	'ACP_ACCOUNT_ADDED'			=> 'Der Benutzer wurde angelegt. Der Benutzer kann sich nun mit den von dir eingegebenen Daten welche er per Mail erhalten hat einloggen.',
+	'ACP_ACCOUNT_INACTIVE'		=> 'Der Benutzer wurde angelegt. Das Forum benötigt jedoch eine E-Mailbestätigung.<br />Ein Aktivierungscode wurde hierzu an die von dir angegebene Benutzeradresse geschickt.',
+	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Der Benutzer wurde angelegt. Das Forum benötigt jedoch eine Adminfreigabe.<br />Hierzu wurde eine E-mail an die Admins geschickt und der Benutzer wird informiert sobald die Aktivierung erfolgt ist',
 	'ACP_ADMIN_ACTIVATE'		=> 'An email will be dispatched to an Administrator for account activation, alternatively you may check the activate account box below to activate the account instantly once created. The user will receive an email containing account login details.',
 	'ACP_EMAIL_ACTIVATE'		=> 'Once the account has been created, the user will receive an email containing an activation link to activate the account.',
 	'ACP_INSTANT_ACTIVATE'		=> 'The Account will be activated instantly. The user will receive an email with account login details.',
 
-	'ADD_USER'					=> 'Add User',
+	'ADD_USER'					=> 'Benutzer Anlegen',
 	'ADD_USER_EXPLAIN'			=> 'Create a new user account. If your activation settings are to Admin Activativation only, you will have the option to activate the user instantly.',
-	'MOD_VERSION'				=> 'Version %s',
+	'MOD_VERSION'				=> 'Version %s', 
 	'ADMIN_ACTIVATE'			=> 'Activate user account',
 	'CONFIRM_PASSWORD'			=> 'Confirm password',
 	'EDIT_USER_GROUPS'			=> '%sClick here to edit the user groups for this user%s',
 	'GROUP_ADD'					=> 'Making a selection here will add the user to the group selected as well as to the registered users group.',
 	'GROUP_DEFAULT_EXPLAIN'		=> 'Checking this box will set the group selected above to be the users default.',
-	'CONTINUE_EDIT_USER'		=> '%1$sClick here to the manage %2$s’s profile%3$s', // e.g.: Click here to edit Joe’s profile.
-	'PASSWORD_EXPLAIN'			=> 'If left blank a password will be auto generated.',
+	'CONTINUE_EDIT_USER'		=> '%1$sHier klicken um %2$s’s profil%3$s zu ändern', // e.g.: Click here to edit Joe’s profile.
+	'PASSWORD_EXPLAIN'			=> 'Wenn hier keine Eingabe erfolgt wird automatisch ein Passwort generiert.',
 	// ACP Logs
-	'LOG_USER_ADDED'			=> '<strong>New user created</strong><br />» %s',
+	'LOG_USER_ADDED'			=> '<strong>Neuer Benutzer angelegt</strong><br />» %s',
 ));

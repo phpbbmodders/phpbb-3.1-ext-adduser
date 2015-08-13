@@ -1,23 +1,23 @@
-Subject: You have been added to "{SITENAME}"
+Betreff: Du Wurdest zu "{SITENAME} hinzugefügt"
 
 {WELCOME_MSG}
 
-Please keep this e-mail for your records. Your account information is as follows:
+Bitte heb diese E-mail für deine Unterlagen auf. Folgende Benutzerangaben wurden für dich eingerichtet:
 
 ----------------------------
-Username: {USERNAME}
+Benutzername: {USERNAME}
 
-Board URL: {U_BOARD}
+Forum URL: {U_BOARD}
 
-Password: {PASSWORD}
+Passwort: {PASSWORD}
 ----------------------------
 
-Please visit the following link in order to activate your account:
+Um deinen Benutzer zu aktivieren klicke bitte auf folgenden Link:
 
 {U_ACTIVATE}
 
-Your password has been securely stored in our database and cannot be retrieved. In the event that it is forgotten, you will be able to reset it using the email address associated with your account.  
+Dein Passwort wurde sicher in unserer Datenbank gespeichert und kann nicht ausgelesen werden. Für den Fall, dass du dein Passwort vergessen haben solltest besteht die Möglichkeit es zurückzusetzen mit Hilfe deiner hinterlegten E-Mailadresse.
 
-We strongly recommend that you change your password once you log into the forum.
+Wir empfehlen dir dringend das Passwort beim ersten einloggen zu ändern.
 
 {EMAIL_SIG}
