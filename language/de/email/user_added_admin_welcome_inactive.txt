@@ -12,7 +12,7 @@ Foren URL: {U_BOARD}
 Passwort: {PASSWORD}
 ----------------------------
 
-Your account is currently inactive and will need to be approved by an administrator before you can log in. Another email will be sent when this has occurred.
+Dein Benutzer ist derzeit inaktiv und muss noch durch einen Administrator aktiviert werden. Du erhälst eine weitere E-Mail sobald dies geschehen ist.
 
 Dein Passwort wurde sicher in unserer Datenbank gespeichert und kann nicht ausgelesen werden. Für den Fall, dass du dein Passwort vergessen haben solltest besteht die Möglichkeit es zurückzusetzen mit Hilfe deiner hinterlegten E-Mailadresse.
 
