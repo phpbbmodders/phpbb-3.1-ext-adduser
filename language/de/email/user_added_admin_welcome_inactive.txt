@@ -1,4 +1,4 @@
-Betreff: Du Wurdest zu "{SITENAME} hinzugefügt"
+﻿Subject: Du Wurdest zu "{SITENAME} hinzugefügt"
 
 {WELCOME_MSG}
 
