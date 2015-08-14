@@ -49,7 +49,7 @@ $lang = array_merge($lang, array(
 
 	'ADD_USER'					=> 'Benutzer Anlegen',
 	'ADD_USER_EXPLAIN'			=> 'Einen neuen Benutzer anlegen. Sollte eine Freigabe eines Admins erforderlich sein, so hast du die Möglichkeit dies während der Erstellung zu tun.',
-	'MOD_VERSION'				=> 'Version %s', 
+	'MOD_VERSION'				=> 'Version %s',
 	'ADMIN_ACTIVATE'			=> 'Benutzer aktivieren',
 	'CONFIRM_PASSWORD'			=> 'Passwort bestätigen',
 	'EDIT_USER_GROUPS'			=> '%sHier klicken um die Gruppenzugehörigkeit für diesen Benutzer%s festzulegen',
