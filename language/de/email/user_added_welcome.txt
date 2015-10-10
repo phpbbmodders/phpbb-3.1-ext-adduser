@@ -1,0 +1,18 @@
+﻿Subject: Du Wurdest zu "{SITENAME} hinzugefügt"
+
+{WELCOME_MSG}
+
+Bitte heb diese E-mail für deine Unterlagen auf. Folgende Benutzerangaben wurden für dich eingerichtet:
+
+----------------------------
+Benutzername: {USERNAME}
+
+Foren URL: {U_BOARD}
+
+Passwort: {PASSWORD}
+----------------------------
+
+Dein Passwort wurde sicher in unserer Datenbank gespeichert und kann nicht ausgelesen werden. Für den Fall, dass du dein Passwort vergessen haben solltest besteht die Möglichkeit es zurückzusetzen mit Hilfe deiner hinterlegten E-Mailadresse.
+
+Wir empfehlen dir dringend das Passwort beim ersten einloggen zu ändern.
+{EMAIL_SIG}
