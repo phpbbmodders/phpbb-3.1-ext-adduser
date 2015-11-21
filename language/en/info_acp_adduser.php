@@ -39,7 +39,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	// ACP Module
 	'ACP_ADD_USER'				=> 'ACP Add User',
-	'DIR_NOT_EXIST'				=> 'The language you have chosen (%s) does not have the files needed for the extension. Please translate them and upload to the %s directory of the extension to use the extension.',
+	'DIR_NOT_EXIST'				=> 'The language you have chosen (%s) does not have the files needed for the extension. Please translate them and upload to the “%s” directory of the extension to use the extension.',
 	'ACP_ACCOUNT_ADDED'			=> 'The user account has been created. The user may now login with the username and password sent to the email address you provided.',
 	'ACP_ACCOUNT_INACTIVE'		=> 'The user account has been created. However, the forum settings require the user to activate their account.<br />An activation key has been sent to the email address you provided for the user.',
 	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'The account has been created. However, the forum settings require account activation by an administrator.<br />An email has been sent to the Administrators and the user will be informed when their account has been activated',
