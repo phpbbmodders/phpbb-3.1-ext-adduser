@@ -38,25 +38,25 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	// ACP Module
-	'ACP_ADD_USER'				=> 'Benutzer anlegen',
-	'DIR_NOT_EXIST'				=> 'Die Sprachauswahl %s funktioniert nicht da die erforderlichen Dateien fehlen. Bitte übersetzen und ins Verzeichnis %s hochladen um die Sprache zu benutzen.',
-	'ACP_ACCOUNT_ADDED'			=> 'Der Benutzer wurde angelegt. Der Benutzer kann sich nun mit den von dir eingegebenen Daten welche er per Mail erhalten hat einloggen.',
-	'ACP_ACCOUNT_INACTIVE'		=> 'Der Benutzer wurde angelegt. Das Forum benötigt jedoch eine E-Mailbestätigung.<br />Ein Aktivierungscode wurde hierzu an die von dir angegebene Benutzeradresse geschickt.',
-	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Der Benutzer wurde angelegt. Das Forum benötigt jedoch eine Adminfreigabe.<br />Hierzu wurde eine E-mail an die Admins geschickt und der Benutzer wird informiert sobald die Aktivierung erfolgt ist',
-	'ACP_ADMIN_ACTIVATE'		=> 'Die Administratoren werden per E-Mail informiert, dass ein Benutzer freigeschaltet werden möchte, alternativ kannst du durch klicken der Checkbox die Aktivierung direkt vornehmen. Der Benutzer erhält eine E-Mail mit den Zugangsdaten.',
-	'ACP_EMAIL_ACTIVATE'		=> 'Sobald der Benutzer angelegt ist, erhält der neue Benutzer eine E-Mail mit dem Aktivierungslink.',
-	'ACP_INSTANT_ACTIVATE'		=> 'Der Benutzer wird unmittelbar freigeschaltet. Eine E-Mail mit den Zugangsdaten wird ihm an die angegebene E-Mailadresse zugesandt .',
+	'ACP_ADD_USER'				=> 'Benutzer hinzufügen',
+	'DIR_NOT_EXIST'				=> 'Für die ausgewählte Sprache %s gibt es die für die Erweiterung benötigten Dateien nicht. Bitte übersetze sie und lade sie in das  %s-Verzeichnis der Erweiterung hoch, um diese nutzen zu können.',
+	'ACP_ACCOUNT_ADDED'			=> 'Das Benutzerkonto wurde angelegt. Der Nutzer kann sich jetzt mit dem Benutzernamen und dem Kennwort, die an die E-Mail-Adresse, die Du angegeben hast, gesendet wurden, anmelden.',
+	'ACP_ACCOUNT_INACTIVE'		=> 'Das Benutzerkonto wurde angelegt. Die Foreneinstellungen erfordern jedoch, dass der Nutzer sein Konto aktiviert.<br />Ein Aktivierungs-Link wurde an die E-Mail-Adresse, die Du angegeben hast, gesendet.',
+	'ACP_ACCOUNT_INACTIVE_ADMIN'=> 'Das Benutzerkonto wurde angelegt. Die Foreneinstellungen erfordern jedoch, dass ein Administrator das Konto aktiviert.<br />Eine Informations-E-Mail dazu wurde an die Administratoren geschickt. Der Nutzer wird automatisch informiert, sobald das Konto aktiviert wurde.',
+	'ACP_ADMIN_ACTIVATE'		=> 'Zur Aktivierung wird eine E-Mail an einen Administrator gesendet. Du kannst alternativ auch die Aktivierungs-Box unten auswählen, damit das Konto direkt nach Anlage aktiv wird. Dem Nutzer wird eine E-Mail mit den Anmeldedaten zugesendet.',
+	'ACP_EMAIL_ACTIVATE'		=> 'Sobald das Konto angelegt wurde, wird eine E-Mail mit einem Link zur Aktivierung des Kontos an den Nutzer gesendet.',
+	'ACP_INSTANT_ACTIVATE'		=> 'Das Konto wird sofort aktiviert. Dem Nutzer wird eine E-Mail mit den Anmeldedaten zugesendet.',
 
-	'ADD_USER'					=> 'Benutzer Anlegen',
-	'ADD_USER_EXPLAIN'			=> 'Einen neuen Benutzer anlegen. Sollte eine Freigabe eines Admins erforderlich sein, so hast du die Möglichkeit dies während der Erstellung zu tun.',
+	'ADD_USER'					=> 'Benutzerkonto anlegen',
+	'ADD_USER_EXPLAIN'			=> 'Leg ein neues Benutzerkonto an. Wenn die Foreneinstellung nur Admin-Aktivierung erfordern, kannst Du das Konto sofort aktiv schalten.',
 	'MOD_VERSION'				=> 'Version %s',
-	'ADMIN_ACTIVATE'			=> 'Benutzer aktivieren',
-	'CONFIRM_PASSWORD'			=> 'Passwort bestätigen',
-	'EDIT_USER_GROUPS'			=> '%sHier klicken um die Gruppenzugehörigkeit für diesen Benutzer%s festzulegen',
-	'GROUP_ADD'					=> 'Triffst du hier eine Auswahl, wird der Benutzer dieser Gruppe ebenso wie der Gruppe "Registrierter Benutzer" hinzugefügt.',
-	'GROUP_DEFAULT_EXPLAIN'		=> 'Checking this box will set the group selected above to be the users default.',
-	'CONTINUE_EDIT_USER'		=> '%1$sHier klicken um %2$s’s profil%3$s zu ändern', // e.g.: Click here to edit Joe’s profile.
-	'PASSWORD_EXPLAIN'			=> 'Wenn hier keine Eingabe erfolgt wird automatisch ein Passwort generiert.',
+	'ADMIN_ACTIVATE'			=> 'Benutzerkonto aktivieren',
+	'CONFIRM_PASSWORD'			=> 'Kennwort bestätigen',
+	'EDIT_USER_GROUPS'			=> '%sKlicke hier, um die Gruppen für diesen Benutzer zu bearbeiten%s',
+	'GROUP_ADD'					=> 'Wenn Du hier eine Auswahl triffst, wird der Benutzer zur ausgewählten Gruppe und zur Gruppe Registrierte Benutzer hinzufügen.',
+	'GROUP_DEFAULT_EXPLAIN'		=> 'Auswahl dieser Box legt die oben ausgewählte Gruppe als Standardgruppe für den Benutzer fest.',
+	'CONTINUE_EDIT_USER'		=> '%1$sKlicke hier, um %2$s’s Profil zu bearbeiten%3$s', // e.g.: Click here to edit Joe’s profile.
+	'PASSWORD_EXPLAIN'			=> 'Wird dieses Feld leer gelassen, wird automatisch ein Kennwort erzeugt.',
 	// ACP Logs
 	'LOG_USER_ADDED'			=> '<strong>Neuer Benutzer angelegt</strong><br />» %s',
 ));

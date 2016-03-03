@@ -1,18 +1,21 @@
-﻿Subject: Du Wurdest zu "{SITENAME} hinzugefügt"
+Subject: Für Dich wurde ein Konto im Forum "{SITENAME}" angelegt
 
 {WELCOME_MSG}
 
-Bitte heb diese E-mail für deine Unterlagen auf. Folgende Benutzerangaben wurden für dich eingerichtet:
+Bitte bewahre diese E-Mail als Referenz auf oder speichere die Information an einem sicheren Ort.
+
+Die Kontendaten sind:
 
 ----------------------------
 Benutzername: {USERNAME}
 
-Foren URL: {U_BOARD}
+Foren-URL: {U_BOARD}
 
-Passwort: {PASSWORD}
+Kennwort: {PASSWORD}
 ----------------------------
 
-Dein Passwort wurde sicher in unserer Datenbank gespeichert und kann nicht ausgelesen werden. Für den Fall, dass du dein Passwort vergessen haben solltest besteht die Möglichkeit es zurückzusetzen mit Hilfe deiner hinterlegten E-Mailadresse.
+Dein Kennwort wurde sicher in unserer Datenbank gespeichert. Es kann von dort nicht ausgelesen werden, auch nicht von unseren Administratoren. Solltest Du Dein Kennwort vergessen, kannst Du es mit der E-Mail-Adresse, die Du für Dein Konto hinterlegt hast, zurücksetzen lassen.
 
-Wir empfehlen dir dringend das Passwort beim ersten einloggen zu ändern.
+Wir empfehlen Dir dringend, Dein Kennwort nach der ersten Anmeldung am Forum zu ändern.
+
 {EMAIL_SIG}
