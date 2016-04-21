@@ -21,30 +21,26 @@ class adduser_module
 		global $config, $db, $request, $template, $user, $phpbb_root_path, $phpEx, $phpbb_container, $phpbb_admin_path;
 
 		$this->config = $config;
-		$this->db = $db;
-		$this->request = $request;
-		$this->template = $template;
-		$this->user = $user;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $phpEx;
 		$this->log = $phpbb_container->get('log');
-		$this->phpbb_admin_path = $phpbb_admin_path;
+		$this->db = $db;
+		$this->user = $user;
 
-		$admin_activate = ($this->request->variable('activate', 0)) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
-		$group_default = $this->request->variable('group_default', 0);
-		$group_selected = $this->request->variable('group', 0);
+		$admin_activate = ($request->variable('activate', 0)) ? (($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false) : false;
+		$group_default = $request->variable('group_default', 0);
+		$group_selected = $request->variable('group', 0);
+		$new_user = $request->variable('new_user', 0);
 
-		$this->page_title = $user->lang['ACP_ADD_USER'];
+		$this->page_title = $this->user->lang['ACP_ADD_USER'];
 		$this->tpl_name = 'acp_adduser';
 
 		//include files we need to add a user
 		if (!function_exists('user_add'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+			include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 		}
 
 		// include lang files we need
-		$user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
+		$this->user->add_lang(array('posting', 'ucp', 'acp/users', 'acp/groups'));
 
 		// add custom profile fields
 		$cp = $phpbb_container->get('profilefields.manager');
@@ -62,18 +58,18 @@ class adduser_module
 		$timezone = $this->config['board_timezone'];
 
 		$data = array(
-			'username'			=> $this->request->variable('username', '', true),
-			'new_password'		=> $this->request->variable('new_password', '', true),
-			'password_confirm'	=> $this->request->variable('password_confirm', '', true),
-			'email'				=> strtolower($this->request->variable('email', '')),
-			'lang'				=> basename($this->request->variable('lang', $this->user->lang_name)),
-			'tz'				=> $this->request->variable('tz', $timezone),
-			'group' 			=> $this->request->variable('group', 0),
+			'username'			=> $request->variable('username', '', true),
+			'new_password'		=> $request->variable('new_password', '', true),
+			'password_confirm'	=> $request->variable('password_confirm', '', true),
+			'email'				=> strtolower($request->variable('email', '')),
+			'lang'				=> basename($request->variable('lang', $this->user->lang_name)),
+			'tz'				=> $request->variable('tz', $timezone),
+			'group' 			=> $request->variable('group', 0),
 		);
 
 		// build an array of all lang directories for the extension and check to make sure we have the lang available that is being chosen
 		// if the lang isn't present then errors will present themselves due to no email template found
-		$dir_array = $this->dir_to_array($this->phpbb_root_path .'ext/phpbbmodders/adduser/language');
+		$dir_array = $this->dir_to_array($phpbb_root_path .'ext/phpbbmodders/adduser/language');
 
 		if (!in_array($data['lang'], $dir_array))
 		{
@@ -84,14 +80,14 @@ class adduser_module
 		{
 			$data['bday_day'] = $data['bday_month'] = $data['bday_year'] = 0;
 
-			$data['bday_day'] = $this->request->variable('bday_day', $data['bday_day']);
-			$data['bday_month'] = $this->request->variable('bday_month', $data['bday_month']);
-			$data['bday_year'] = $this->request->variable('bday_year', $data['bday_year']);
+			$data['bday_day'] = $request->variable('bday_day', $data['bday_day']);
+			$data['bday_month'] = $request->variable('bday_month', $data['bday_month']);
+			$data['bday_year'] = $request->variable('bday_year', $data['bday_year']);
 			$data['user_birthday'] = sprintf('%2d-%2d-%4d', $data['bday_day'], $data['bday_month'], $data['bday_year']);
 		}
 
 		// if form is submitted
-		if ($this->request->is_set_post('submit'))
+		if ($request->is_set_post('submit'))
 		{
 			// Test if form key is valid
 			if (!check_form_key('acp_adduser'))
@@ -157,11 +153,11 @@ class adduser_module
 
 			if ($data['new_password'] != $data['password_confirm'])
 			{
-				$error[] = $user->lang['NEW_PASSWORD_ERROR'];
+				$error[] = $this->user->lang['NEW_PASSWORD_ERROR'];
 			}
 
 			// Replace "error" strings with their real, localised form
-			$error = array_map(array($user, 'lang'), $error);
+			$error = array_map(array($this->user, 'lang'), $error);
 
 			if (!sizeof($error))
 			{
@@ -171,9 +167,9 @@ class adduser_module
 						FROM ' . GROUPS_TABLE . "
 						WHERE group_name = 'REGISTERED'
 							AND group_type = " . GROUP_SPECIAL;
-				$result = $db->sql_query($sql);
-				$group_id = $db->sql_fetchfield('group_id');
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$group_id = $this->db->sql_fetchfield('group_id');
+				$this->db->sql_freeresult($result);
 
 				// use group_id here
 				if (!$group_id)
@@ -183,59 +179,63 @@ class adduser_module
 
 				if (($this->config['require_activation'] == USER_ACTIVATION_SELF || $this->config['require_activation'] == USER_ACTIVATION_ADMIN) && $this->config['email_enable'] && !$admin_activate)
 				{
-					$user_actkey = gen_rand_string(mt_rand(6, 10));
-					$user_type = USER_INACTIVE;
-					$user_inactive_reason = INACTIVE_REGISTER;
-					$user_inactive_time = time();
+					$this->user_actkey = gen_rand_string(mt_rand(6, 10));
+					$this->user_type = USER_INACTIVE;
+					$this->user_inactive_reason = INACTIVE_REGISTER;
+					$this->user_inactive_time = time();
 				}
 				else
 				{
-					$user_type = USER_NORMAL;
-					$user_actkey = '';
-					$user_inactive_reason = 0;
-					$user_inactive_time = 0;
+					$this->user_type = USER_NORMAL;
+					$this->user_actkey = '';
+					$this->user_inactive_reason = 0;
+					$this->user_inactive_time = 0;
 				}
 
 				// Instantiate passwords manager
 				$passwords_manager = $phpbb_container->get('passwords.manager');
 
-				$user_row = array(
+				$this->user_row = array(
 					'username'				=> $data['username'],
 					'user_password'			=> $passwords_manager->hash($data['new_password']),
 					'user_email'			=> $data['email'],
 					'group_id'				=> (int) $group_id,
 					'user_timezone'			=> $data['tz'],
 					'user_lang'				=> $data['lang'],
-					'user_type'				=> $user_type,
-					'user_actkey'			=> $user_actkey,
+					'user_type'				=> $this->user_type,
+					'user_actkey'			=> $this->user_actkey,
 					'user_ip'				=> $this->user->ip,
 					'user_regdate'			=> time(),
-					'user_inactive_reason'	=> $user_inactive_reason,
-					'user_inactive_time'	=> $user_inactive_time,
+					'user_inactive_reason'	=> $this->user_inactive_reason,
+					'user_inactive_time'	=> $this->user_inactive_time,
 				);
 
 				if ($this->config['allow_birthdays'])
 				{
-					$user_row['user_birthday'] = $data['user_birthday'];
+					$this->user_row['user_birthday'] = $data['user_birthday'];
+				}
+				if ($this->config['new_member_post_limit'] && $new_user)
+				{
+					$this->user_row['user_new'] = 1;
 				}
 				// Register user...
-				$user_id = user_add($user_row, $cp_data);
+				$this->user_id = user_add($this->user_row, $cp_data);
 				if (!empty($data['group']))
 				{
 					if (!empty($group_default))
 					{
-						group_user_add($data['group'], array($user_id), false, false, true);
+						group_user_add($data['group'], array($this->user_id), false, false, true);
 					}
 					else
 					{
-						group_user_add($data['group'], array($user_id));
+						group_user_add($data['group'], array($this->user_id));
 					}
 				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED', time(), array($data['username']));
 
 				// This should not happen, because the required variables are listed above...
-				if ($user_id === false)
+				if ($this->user_id === false)
 				{
 					trigger_error($this->user->lang['NO_USER'], E_USER_ERROR);
 				}
@@ -258,11 +258,11 @@ class adduser_module
 					$email_template = '@phpbbmodders_adduser/user_added_welcome';
 				}
 
-				if ($config['email_enable'])
+				if ($this->config['email_enable'])
 				{
 					if (!class_exists('messenger'))
 					{
-						include($this->phpbb_root_path . 'includes/functions_messenger.' . $this->php_ext);
+						include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
 					}
 
 					$messenger = new \messenger(false);
@@ -280,7 +280,7 @@ class adduser_module
 						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($this->user->lang['WELCOME_SUBJECT'], $this->config['sitename'])),
 						'USERNAME'		=> htmlspecialchars_decode($data['username']),
 						'PASSWORD'		=> htmlspecialchars_decode($data['new_password']),
-						'U_ACTIVATE'	=> "$server_url/ucp.$phpEx?mode=activate&u=$user_id&k=$user_actkey")
+						'U_ACTIVATE'	=> "$server_url/ucp.$phpEx?mode=activate&u=$this->user_id&k=$this->user_actkey")
 					);
 
 					$messenger->send(NOTIFY_EMAIL);
@@ -290,14 +290,14 @@ class adduser_module
 				{
 					$phpbb_notifications = $phpbb_container->get('notification_manager');
 					$phpbb_notifications->add_notifications('notification.type.admin_activate_user', array(
-						'user_id'		=> $user_id,
-						'user_actkey'	=> $user_row['user_actkey'],
-						'user_regdate'	=> $user_row['user_regdate'],
+						'user_id'		=> $this->user_id,
+						'user_actkey'	=> $this->user_row['user_actkey'],
+						'user_regdate'	=> $this->user_row['user_regdate'],
 					));
 				}
 
-				$message[] = sprintf($user->lang['CONTINUE_EDIT_USER'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $user_id) . '">', $data['username'], '</a>');
-				$message[] = sprintf($user->lang['EDIT_USER_GROUPS'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=groups&amp;u=' . $user_id) . '">', '</a>');
+				$message[] = sprintf($this->user->lang['CONTINUE_EDIT_USER'], '<a href="' . append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $this->user_id) . '">', $data['username'], '</a>');
+				$message[] = sprintf($this->user->lang['EDIT_USER_GROUPS'], '<a href="' . append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=groups&amp;u=' . $this->user_id) . '">', '</a>');
 				$message[] = adm_back_link($this->u_action);
 
 				trigger_error(implode('<br />', $message));
@@ -346,7 +346,7 @@ class adduser_module
 			}
 			unset($now);
 
-			$this->template->assign_vars(array(
+			$template->assign_vars(array(
 				'S_BIRTHDAY_DAY_OPTIONS'	=> $s_birthday_day_options,
 				'S_BIRTHDAY_MONTH_OPTIONS'	=> $s_birthday_month_options,
 				'S_BIRTHDAY_YEAR_OPTIONS'	=> $s_birthday_year_options,
@@ -357,17 +357,17 @@ class adduser_module
 		// Get the groups, so that the user can be added to them
 		$s_group_options = $this->get_groups($group_selected);
 
-		$timezone_selects = phpbb_timezone_select($template, $user, $data['tz'], true);
-		$this->template->assign_vars(array(
+		$timezone_selects = phpbb_timezone_select($template, $this->user, $data['tz'], true);
+		$template->assign_vars(array(
 			'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'NEW_USERNAME'		=> $data['username'],
 			'EMAIL'				=> $data['email'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
 
-			'L_PASSWORD_EXPLAIN'	=> $this->user->lang($config['pass_complex'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_pass_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_pass_chars'])) . ' ' . $this->user->lang['PASSWORD_EXPLAIN'],
-			'L_USERNAME_EXPLAIN'	=> $this->user->lang($config['allow_name_chars'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_name_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_name_chars'])),
-			'L_ADD_USER_EXPLAIN'	=> sprintf($this->user->lang['ADD_USER_EXPLAIN'], '<a href="' . append_sid("{$this->phpbb_admin_path}index.$phpEx", 'i=acp_board&amp;mode=registration') . '">', '</a>'),
+			'L_PASSWORD_EXPLAIN'	=> $this->user->lang($this->config['pass_complex'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_pass_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_pass_chars'])) . ' ' . $this->user->lang['PASSWORD_EXPLAIN'],
+			'L_USERNAME_EXPLAIN'	=> $this->user->lang($this->config['allow_name_chars'] . '_EXPLAIN', $this->user->lang('CHARACTERS', (int) $this->config['min_name_chars']), $this->user->lang('CHARACTERS', (int) $this->config['max_name_chars'])),
+			'L_ADD_USER_EXPLAIN'	=> sprintf($this->user->lang['ADD_USER_EXPLAIN'], '<a href="' . append_sid("{$phpbb_admin_path}index.$phpEx", 'i=acp_board&amp;mode=registration') . '">', '</a>'),
 			'L_REG_COND'		=> $l_reg_cond,
 			'L_MOD_VERSION'		=> sprintf($this->user->lang['MOD_VERSION'] , $this->config['adduser_version']),
 
@@ -375,6 +375,8 @@ class adduser_module
 			'S_GROUP_OPTIONS'	=> $s_group_options,
 			'S_LANG_OPTIONS'	=> language_select($data['lang']),
 			'S_ADMIN_ACTIVATE'	=> ($this->config['require_activation'] == USER_ACTIVATION_ADMIN) ? true : false,
+			'S_NEW_USER_SET'	=> !empty($this->config['new_member_post_limit']) ? true : false,
+			'S_NEW_USER_ENABLE'	=> $new_user,
 
 			'U_ADMIN_ACTIVATE'	=> ($admin_activate) ? 'checked="checked"' : '',
 			'U_GROUP_DEFAULT'	=> ($group_default) ? 'checked="checked"' : '',
@@ -383,7 +385,7 @@ class adduser_module
 		$this->user->profile_fields = array();
 
 		// Generate profile fields -> Template Block Variable profile_fields
-		$cp->generate_profile_fields('register', $user->get_iso_lang_id());
+		$cp->generate_profile_fields('register', $this->user->get_iso_lang_id());
 
 	}
 

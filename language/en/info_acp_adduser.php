@@ -57,6 +57,8 @@ $lang = array_merge($lang, array(
 	'GROUP_DEFAULT_EXPLAIN'		=> 'Checking this box will set the group selected above to be the users default.',
 	'CONTINUE_EDIT_USER'		=> '%1$sClick here to the manage %2$s’s profile%3$s', // e.g.: Click here to edit Joe’s profile.
 	'PASSWORD_EXPLAIN'			=> 'If left blank a password will be auto generated.',
+	'ENABLE_NEWUSER'			=> 'Enable new user',
+	'ENABLE_NEWUSER_EXPLAIN'	=> 'If set as yes the user will be added to the newly registered user group',
 	// ACP Logs
 	'LOG_USER_ADDED'			=> '<strong>New user created</strong><br />» %s',
 ));

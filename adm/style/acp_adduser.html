@@ -44,6 +44,15 @@
 		<dt><label for="group_default">{L_GROUP_DEFAULT}{L_COLON}</label><br /><span>{L_GROUP_DEFAULT_EXPLAIN}</span></dt>
 		<dd><input id="group_default" class="radio" type="checkbox" value="1" {U_GROUP_DEFAULT} name="group_default" /></dd>
 	</dl>
+	<!-- IF S_NEW_USER_SET -->
+	<dl>
+		<dt><label for="new_user">{L_ENABLE_NEWUSER}{L_COLON}</label><br><span>{L_ENABLE_NEWUSER_EXPLAIN}</span></dt>
+		<dd>
+			<label><input type="radio" class="radio" name="new_user" value="1"<!-- IF S_NEW_USER_ENABLE --> id="new_user" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="new_user" value="0"<!-- IF not S_NEW_USER_ENABLE --> id="new_user" checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+		</dd>
+	</dl>
+	<!-- ENDIF -->
 	<!-- IF S_BIRTHDAYS_ENABLED -->
 	<dl>
 		<dt><label for="birthday">{L_BIRTHDAY}{L_COLON}</label><br /><span>{L_BIRTHDAY_EXPLAIN}</span></dt>
