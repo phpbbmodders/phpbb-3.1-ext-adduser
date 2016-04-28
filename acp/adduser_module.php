@@ -144,7 +144,7 @@ class adduser_module
 			$error = validate_data($data, $validate_array);
 
 			// validate custom profile fields
-			$cp->submit_cp_field('register', $this->user->get_iso_lang_id(), $cp_data, $error);
+			$cp->submit_cp_field('profile', $this->user->get_iso_lang_id(), $cp_data, $error);
 
 			if (sizeof($cp_error))
 			{
@@ -385,7 +385,7 @@ class adduser_module
 		$this->user->profile_fields = array();
 
 		// Generate profile fields -> Template Block Variable profile_fields
-		$cp->generate_profile_fields('register', $this->user->get_iso_lang_id());
+		$cp->generate_profile_fields('profile', $this->user->get_iso_lang_id());
 
 	}
 
